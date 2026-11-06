@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cálculo integral | Tangente</title>
+  <meta name="description" content="Bloco 4: antiderivadas, integral definida, somas de Riemann, Teorema Fundamental do Cálculo, substituição, integração por partes e aplicações.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script defer src="js/graficos.js"></script>
+  <script defer src="js/questoes.js"></script>
+  <script defer src="js/demos.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body class="bloco-integrais">
+  <a class="pular" href="#principal">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo-interno">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26C10 26 14 6 29 5" fill="none" stroke="#2457d6" stroke-width="3" stroke-linecap="round"/><line x1="6" y1="25.6" x2="20" y2="6.4" stroke="#c42a6b" stroke-width="2.5" stroke-linecap="round"/><circle cx="13" cy="16" r="3.2" fill="#c42a6b"/></svg>
+        <span>Tangente</span>
+      </a>
+      <nav class="menu" aria-label="Blocos da disciplina">
+        <a href="funcoes.html" data-bloco="funcoes">Funções</a>
+        <a href="limites.html" data-bloco="limites">Limites</a>
+        <a href="derivadas.html" data-bloco="derivadas">Derivadas</a>
+        <a href="integrais.html" data-bloco="integrais" aria-current="page">Integrais</a>
+        <a href="quiz.html" data-bloco="quiz">Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="pagina">
+    <aside class="sumario" aria-label="Nesta página">
+      <h2>Nesta página</h2>
+      <ol>
+        <li><a href="#antiderivadas">Antiderivadas</a></li>
+        <li><a href="#definida">Integral definida</a></li>
+        <li><a href="#tfc">Teorema Fundamental</a></li>
+        <li><a href="#substituicao">Substituição</a></li>
+        <li><a href="#partes">Por partes</a></li>
+        <li><a href="#aplicacoes">Aplicações</a></li>
+        <li><a href="#exercicios">Exercícios</a></li>
+      </ol>
+    </aside>
+
+    <main class="conteudo" id="principal">
+      <header class="abertura">
+        <p class="bloco-num">Bloco 4</p>
+        <h1>Cálculo integral</h1>
+        <p class="lead">A derivada parte de uma quantidade e encontra sua taxa de variação. A integral faz o caminho de volta: soma pequenas taxas para reconstruir o total acumulado, como distância, área, volume ou probabilidade.</p>
+      </header>
+
+      <section id="antiderivadas">
+        <h2>Antiderivadas e integral indefinida</h2>
+        <p>Uma <strong>antiderivada</strong> (ou primitiva) de \(f\) é uma função \(F\) cuja derivada é \(f\). Por exemplo, \(F(x) = x^3\) é primitiva de \(f(x) = 3x^2\). Mas \(x^3 + 5\) também é, porque a derivada de uma constante é zero.</p>
+        <div class="definicao">
+          <h4>Integral indefinida</h4>
+          \[ \int f(x)\,dx = F(x) + C, \quad \text{onde } F'(x) = f(x). \]
+          <p>A constante \(C\) representa toda a família de primitivas. Para conferir uma integral, derive o resultado: você deve voltar ao integrando.</p>
+        </div>
+
+        <div class="tabela-rolagem">
+          <table class="regras">
+            <thead><tr><th scope="col">Função</th><th scope="col">Integral</th></tr></thead>
+            <tbody>
+              <tr><td>\(x^n\), com \(n \ne -1\)</td><td>\(\dfrac{x^{n+1}}{n+1} + C\)</td></tr>
+              <tr><td>\(\dfrac{1}{x}\)</td><td>\(\ln|x| + C\)</td></tr>
+              <tr><td>\(e^x\)</td><td>\(e^x + C\)</td></tr>
+              <tr><td>\(a^x\)</td><td>\(\dfrac{a^x}{\ln a} + C\)</td></tr>
+              <tr><td>\(\operatorname{sen} x\)</td><td>\(-\cos x + C\)</td></tr>
+              <tr><td>\(\cos x\)</td><td>\(\operatorname{sen} x + C\)</td></tr>
+              <tr><td>\(\sec^2 x\)</td><td>\(\tan x + C\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>A integral é linear: \(\int (af + bg)\,dx = a\int f\,dx + b\int g\,dx\).</p>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: \(\displaystyle\int \left(4x^3 - \frac{2}{x} + e^x\right) dx\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Integre termo a termo: \(4 \cdot \frac{x^4}{4} - 2\ln|x| + e^x\).</li>
+              <li>Resultado: \(x^4 - 2\ln|x| + e^x + C\).</li>
+              <li>Conferência: \((x^4 - 2\ln|x| + e^x)' = 4x^3 - \frac{2}{x} + e^x\). Confere.</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="definida">
+        <h2>Integral definida e área</h2>
+        <p>Como medir a área sob uma curva? A ideia de Riemann é cobrir a região com \(n\) retângulos finos, somar as áreas deles e então fazer \(n\) crescer.</p>
+
+        <figure class="explorar" data-demo="riemann">
+          <div class="area-grafico"></div>
+          <figcaption>Aumente o número de retângulos. O erro diminui e a soma se aproxima de <strong>4,5</strong>, o valor exato da integral. Compare os três jeitos de escolher a altura: o ponto médio converge bem mais rápido.</figcaption>
+        </figure>
+
+        <div class="definicao">
+          <h4>Definição</h4>
+          \[ \int_a^b f(x)\,dx = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*)\,\Delta x, \qquad \Delta x = \frac{b - a}{n}. \]
+          <p>Quando \(f \ge 0\), o resultado é a área entre o gráfico e o eixo \(x\), de \(a\) até \(b\). Partes abaixo do eixo contam com sinal negativo.</p>
+        </div>
+        <p>Propriedades úteis: \(\int_a^a f = 0\), \(\int_b^a f = -\int_a^b f\) e \(\int_a^b f + \int_b^c f = \int_a^c f\).</p>
+      </section>
+
+      <section id="tfc">
+        <h2>Teorema Fundamental do Cálculo</h2>
+        <p>Calcular limites de somas toda vez seria trabalhoso. O Teorema Fundamental liga as duas metades da disciplina e mostra que integrar é desfazer a derivada.</p>
+        <div class="definicao">
+          <h4>Teorema Fundamental do Cálculo</h4>
+          <p><strong>Parte 1.</strong> Se \(f\) é contínua, então \(\displaystyle\frac{d}{dx}\int_a^x f(t)\,dt = f(x)\).</p>
+          <p><strong>Parte 2.</strong> Se \(F\) é qualquer primitiva de \(f\) em \([a, b]\), então</p>
+          \[ \int_a^b f(x)\,dx = F(b) - F(a) = \Big[F(x)\Big]_a^b. \]
+        </div>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: a área do gráfico interativo</h4>
+          <p>Calcule \(\displaystyle\int_0^3 \left(\frac{x^2}{3} + \frac{1}{2}\right) dx\).</p>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Primitiva: \(F(x) = \frac{x^3}{9} + \frac{x}{2}\).</li>
+              <li>\(F(3) = \frac{27}{9} + \frac{3}{2} = 3 + 1{,}5 = 4{,}5\).</li>
+              <li>\(F(0) = 0\). Logo, a integral vale \(4{,}5\), o mesmo valor para o qual os retângulos convergem.</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="substituicao">
+        <h2>Integração por substituição</h2>
+        <p>É a regra da cadeia ao contrário. Procure uma função "de dentro" \(u = g(x)\) cuja derivada também apareça no integrando:</p>
+        \[ \int f(g(x))\,g'(x)\,dx = \int f(u)\,du, \qquad u = g(x),\ du = g'(x)\,dx. \]
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: \(\displaystyle\int x \cos(x^2)\,dx\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Escolha \(u = x^2\). Então \(du = 2x\,dx\), ou seja, \(x\,dx = \frac{du}{2}\).</li>
+              <li>\(\int \cos u \cdot \frac{du}{2} = \frac{1}{2}\operatorname{sen} u + C\).</li>
+              <li>Volte para \(x\): \(\frac{1}{2}\operatorname{sen}(x^2) + C\).</li>
+            </ol>
+          </details>
+        </div>
+        <p>Em integrais definidas, troque também os limites: se \(x\) vai de \(a\) a \(b\), então \(u\) vai de \(g(a)\) a \(g(b)\).</p>
+      </section>
+
+      <section id="partes">
+        <h2>Integração por partes</h2>
+        <p>É a regra do produto ao contrário. Serve para integrais de produtos como \(x e^x\), \(x \operatorname{sen} x\) ou \(\ln x\):</p>
+        \[ \int u\,dv = uv - \int v\,du. \]
+        <p>Para escolher \(u\), use a ordem <strong>LIATE</strong>: Logarítmica, Inversa trigonométrica, Algébrica, Trigonométrica, Exponencial. A que aparecer primeiro nessa lista costuma ser a melhor escolha para \(u\).</p>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: \(\displaystyle\int x \operatorname{sen} x\,dx\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Pela LIATE, \(u = x\) (algébrica) e \(dv = \operatorname{sen} x\,dx\).</li>
+              <li>Então \(du = dx\) e \(v = -\cos x\).</li>
+              <li>\(\int x \operatorname{sen} x\,dx = -x\cos x - \int (-\cos x)\,dx = -x\cos x + \operatorname{sen} x + C\).</li>
+            </ol>
+          </details>
+        </div>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: \(\displaystyle\int \ln x\,dx\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>\(u = \ln x\) e \(dv = dx\). Então \(du = \frac{1}{x}dx\) e \(v = x\).</li>
+              <li>\(x \ln x - \int x \cdot \frac{1}{x}\,dx = x\ln x - x + C\).</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="aplicacoes">
+        <h2>Aplicações</h2>
+
+        <h3>Volumes de sólidos de revolução</h3>
+        <p>Girando o gráfico de \(f\) em torno do eixo \(x\), cada fatia vira um disco de raio \(f(x)\). Somando os discos:</p>
+        \[ V = \pi \int_a^b [f(x)]^2\,dx. \]
+        <p>Exemplo: girando \(y = r\), de \(0\) a \(h\), obtemos um cilindro, e \(V = \pi \int_0^h r^2\,dx = \pi r^2 h\), a fórmula conhecida.</p>
+
+        <h3>Probabilidade em ciência de dados</h3>
+        <p>Para uma variável contínua com função densidade \(f\), a probabilidade de cair num intervalo é a área sob a densidade:</p>
+        \[ P(a \le X \le b) = \int_a^b f(x)\,dx, \qquad \int_{-\infty}^{\infty} f(x)\,dx = 1. \]
+        <p>A curva normal, base de testes estatísticos e de muitos modelos de machine learning, é usada exatamente assim.</p>
+
+        <h3>Simulações físicas e motores de jogos</h3>
+        <p>Velocidade é a integral da aceleração, e posição é a integral da velocidade. Um motor de jogo não resolve essas integrais de forma exata. Ele aproxima a cada quadro (frame), somando pequenos retângulos de largura \(\Delta t\), a mesma ideia das somas de Riemann.</p>
+
+        <div class="computacao">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Integração numérica num game loop</h4>
+          <pre><code>GRAVIDADE = -9.8
+dt = 1 / 60                 # 60 quadros por segundo
+
+def atualizar(obj):
+    obj.vel += GRAVIDADE * dt    # integra a aceleração
+    obj.pos += obj.vel * dt      # integra a velocidade</code></pre>
+          <p>Esse é o método de Euler. Quanto menor o \(\Delta t\), mais perto do valor exato, como acontece com os retângulos quando \(n\) aumenta.</p>
+        </div>
+      </section>
+
+      <section id="exercicios">
+        <h2>Exercícios</h2>
+        <div data-exercicios="integrais"></div>
+      </section>
+
+      <nav class="seguinte" aria-label="Navegação entre blocos">
+        <a href="derivadas.html"><small>Bloco anterior</small><strong>Cálculo diferencial</strong></a>
+        <a class="prox" href="quiz.html"><small>Para fechar</small><strong>Quiz com todos os blocos</strong></a>
+      </nav>
+    </main>
+  </div>
+
+  <footer class="rodape">
+    <div>
+      <span>Tangente: material de estudo de Cálculo Diferencial e Integral.</span>
+      <span>Trabalho acadêmico, 2026.</span>
+    </div>
+  </footer>
+</body>
+</html>

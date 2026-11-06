@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz | Tangente</title>
+  <meta name="description" content="Quiz de Cálculo Diferencial e Integral com questões sorteadas, correção imediata e nota final.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script defer src="js/questoes.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <a class="pular" href="#principal">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo-interno">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26C10 26 14 6 29 5" fill="none" stroke="#2457d6" stroke-width="3" stroke-linecap="round"/><line x1="6" y1="25.6" x2="20" y2="6.4" stroke="#c42a6b" stroke-width="2.5" stroke-linecap="round"/><circle cx="13" cy="16" r="3.2" fill="#c42a6b"/></svg>
+        <span>Tangente</span>
+      </a>
+      <nav class="menu" aria-label="Blocos da disciplina">
+        <a href="funcoes.html" data-bloco="funcoes">Funções</a>
+        <a href="limites.html" data-bloco="limites">Limites</a>
+        <a href="derivadas.html" data-bloco="derivadas">Derivadas</a>
+        <a href="integrais.html" data-bloco="integrais">Integrais</a>
+        <a href="quiz.html" data-bloco="quiz" aria-current="page">Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="quiz-palco" id="principal">
+    <div id="quiz">
+      <div id="quiz-inicio">
+        <h1>Quiz de Cálculo</h1>
+        <p class="lead">Questões sorteadas, uma por vez, com correção e explicação logo após cada resposta. No final aparece a nota e a lista do que revisar.</p>
+
+        <form>
+          <fieldset class="escolha-blocos">
+            <legend>Quais blocos entram no quiz?</legend>
+            <div class="opcoes-bloco">
+              <label style="--c: var(--funcoes)"><input type="checkbox" name="bloco" value="funcoes" checked> Funções</label>
+              <label style="--c: var(--limites)"><input type="checkbox" name="bloco" value="limites" checked> Limites</label>
+              <label style="--c: var(--derivadas)"><input type="checkbox" name="bloco" value="derivadas" checked> Derivadas</label>
+              <label style="--c: var(--integrais)"><input type="checkbox" name="bloco" value="integrais" checked> Integrais</label>
+            </div>
+          </fieldset>
+
+          <div class="controle" style="max-width: 16rem; margin-bottom: 2rem; font-family: var(--fonte-titulo);">
+            <label for="qtd"><span>Número de questões</span></label>
+            <select id="qtd">
+              <option value="5">5 questões</option>
+              <option value="10" selected>10 questões</option>
+              <option value="20">20 questões</option>
+              <option value="999">Todas as disponíveis</option>
+            </select>
+          </div>
+
+          <p class="aviso" hidden role="alert" style="color:#c0392b;font-family:var(--fonte-titulo)">Marque pelo menos um bloco para começar.</p>
+          <button type="submit" class="botao">Começar quiz</button>
+        </form>
+      </div>
+
+      <div id="quiz-palco" hidden></div>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div>
+      <span>Tangente: material de estudo de Cálculo Diferencial e Integral.</span>
+      <span>Trabalho acadêmico, 2026.</span>
+    </div>
+  </footer>
+</body>
+</html>

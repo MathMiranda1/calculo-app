@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Funções reais e modelagem | Tangente</title>
+  <meta name="description" content="Bloco 1: conceito de função, domínio, imagem, funções elementares e modelagem de problemas de computação.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script defer src="js/graficos.js"></script>
+  <script defer src="js/questoes.js"></script>
+  <script defer src="js/demos.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body class="bloco-funcoes">
+  <a class="pular" href="#principal">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo-interno">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26C10 26 14 6 29 5" fill="none" stroke="#2457d6" stroke-width="3" stroke-linecap="round"/><line x1="6" y1="25.6" x2="20" y2="6.4" stroke="#c42a6b" stroke-width="2.5" stroke-linecap="round"/><circle cx="13" cy="16" r="3.2" fill="#c42a6b"/></svg>
+        <span>Tangente</span>
+      </a>
+      <nav class="menu" aria-label="Blocos da disciplina">
+        <a href="funcoes.html" data-bloco="funcoes" aria-current="page">Funções</a>
+        <a href="limites.html" data-bloco="limites">Limites</a>
+        <a href="derivadas.html" data-bloco="derivadas">Derivadas</a>
+        <a href="integrais.html" data-bloco="integrais">Integrais</a>
+        <a href="quiz.html" data-bloco="quiz">Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="pagina">
+    <aside class="sumario" aria-label="Nesta página">
+      <h2>Nesta página</h2>
+      <ol>
+        <li><a href="#conceito">Conceito de função</a></li>
+        <li><a href="#elementares">Funções elementares</a></li>
+        <li><a href="#primeiro-segundo">1º e 2º graus</a></li>
+        <li><a href="#exp-log">Exponencial e logaritmo</a></li>
+        <li><a href="#trigonometricas">Trigonométricas</a></li>
+        <li><a href="#modelagem">Modelagem</a></li>
+        <li><a href="#exercicios">Exercícios</a></li>
+      </ol>
+    </aside>
+
+    <main class="conteudo" id="principal">
+      <header class="abertura">
+        <p class="bloco-num">Bloco 1</p>
+        <h1>Funções reais e modelagem</h1>
+        <p class="lead">Antes de falar em limites ou derivadas, é preciso saber descrever uma relação entre duas grandezas. Uma função é essa descrição: dada uma entrada, ela devolve exatamente uma saída.</p>
+      </header>
+
+      <section id="conceito">
+        <h2>Conceito de função</h2>
+        <p>Pense numa função como um programa que recebe um número e devolve outro. A regra é sempre a mesma, e para cada entrada existe uma única saída.</p>
+
+        <div class="definicao">
+          <h4>Definição</h4>
+          <p>Uma função \(f: A \to B\) associa a cada elemento \(x\) do conjunto \(A\) um único elemento \(y = f(x)\) do conjunto \(B\).</p>
+          <ul>
+            <li><strong>Domínio</strong> \(D(f) = A\): todas as entradas permitidas.</li>
+            <li><strong>Contradomínio</strong> \(B\): onde as saídas podem cair.</li>
+            <li><strong>Imagem</strong> \(\operatorname{Im}(f)\): as saídas que de fato aparecem. Sempre \(\operatorname{Im}(f) \subseteq B\).</li>
+          </ul>
+        </div>
+
+        <p>Quando o domínio não é informado, ele é o maior conjunto de números reais onde a fórmula faz sentido. Na prática, três situações restringem o domínio:</p>
+        <ul>
+          <li>divisão por zero: o denominador precisa ser diferente de zero;</li>
+          <li>raiz de índice par: o radicando precisa ser maior ou igual a zero;</li>
+          <li>logaritmo: o argumento precisa ser estritamente positivo.</li>
+        </ul>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: encontre o domínio de \(f(x) = \dfrac{\sqrt{x}}{x - 2}\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>A raiz exige \(x \ge 0\).</li>
+              <li>O denominador exige \(x - 2 \ne 0\), ou seja, \(x \ne 2\).</li>
+              <li>As duas condições juntas: \(D(f) = \{x \in \mathbb{R} \mid x \ge 0 \text{ e } x \ne 2\} = [0, 2) \cup (2, +\infty)\).</li>
+            </ol>
+          </details>
+        </div>
+
+        <h3>Construção de gráficos</h3>
+        <p>O gráfico de \(f\) é o conjunto de pontos \((x, f(x))\) no plano. Para esboçar à mão: monte uma tabela com alguns valores de \(x\), calcule \(f(x)\), marque os pontos e ligue respeitando o domínio. O <strong>teste da reta vertical</strong> confirma se uma curva é função: nenhuma reta vertical pode cortá-la em mais de um ponto.</p>
+      </section>
+
+      <section id="elementares">
+        <h2>Funções elementares</h2>
+        <p>Quase todo modelo que você vai encontrar é construído a partir de cinco famílias. Escolha uma família abaixo e mexa nos parâmetros para ver como cada um muda o gráfico.</p>
+
+        <figure class="explorar" data-demo="familias">
+          <div class="area-grafico"></div>
+          <figcaption>Na exponencial, coloque a base <strong>b</strong> abaixo de 1 e veja a curva passar a decrescer. Na trigonométrica, aumente <strong>b</strong> e repare o período encolher.</figcaption>
+        </figure>
+
+        <div class="tabela-rolagem">
+          <table class="regras">
+            <thead>
+              <tr><th scope="col">Família</th><th scope="col">Forma geral</th><th scope="col">Onde aparece na computação</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1º grau (afim)</td><td>\(f(x) = ax + b\)</td><td>Custo de nuvem por hora, tempo de laço simples</td></tr>
+              <tr><td>2º grau (quadrática)</td><td>\(f(x) = ax^2 + bx + c\)</td><td>Laços aninhados, trajetória de projéteis em jogos</td></tr>
+              <tr><td>Exponencial</td><td>\(f(x) = a \cdot b^x\)</td><td>Crescimento de dados, força bruta em senhas</td></tr>
+              <tr><td>Logarítmica</td><td>\(f(x) = \log_b x\)</td><td>Busca binária, altura de árvores balanceadas</td></tr>
+              <tr><td>Trigonométrica</td><td>\(f(x) = a \operatorname{sen}(bx)\)</td><td>Áudio, animação, rotação em computação gráfica</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="primeiro-segundo">
+        <h2>Funções de 1º e 2º graus</h2>
+        <h3>1º grau: \(f(x) = ax + b\)</h3>
+        <p>O gráfico é uma reta. O coeficiente \(a\) é a <strong>taxa de variação</strong>: quanto \(f\) muda quando \(x\) aumenta 1. Se \(a \gt 0\) a reta sobe; se \(a \lt 0\), desce. O coeficiente \(b\) é onde a reta corta o eixo \(y\), e a raiz é \(x = -\frac{b}{a}\).</p>
+
+        <h3>2º grau: \(f(x) = ax^2 + bx + c\)</h3>
+        <p>O gráfico é uma parábola, com concavidade para cima se \(a \gt 0\) e para baixo se \(a \lt 0\). As raízes vêm da fórmula de Bhaskara, e o vértice marca o ponto de máximo ou de mínimo:</p>
+        \[ x = \frac{-b \pm \sqrt{\Delta}}{2a}, \quad \Delta = b^2 - 4ac \qquad\qquad V = \left(-\frac{b}{2a},\ -\frac{\Delta}{4a}\right) \]
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: analise \(f(x) = -x^2 + 4x + 5\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>\(a = -1 \lt 0\): concavidade para baixo, então o vértice é um máximo.</li>
+              <li>\(\Delta = 16 + 20 = 36\). Raízes: \(x = \frac{-4 \pm 6}{-2}\), ou seja, \(x = -1\) e \(x = 5\).</li>
+              <li>Vértice: \(x_v = -\frac{4}{-2} = 2\) e \(f(2) = -4 + 8 + 5 = 9\). Ponto máximo \((2, 9)\).</li>
+              <li>Imagem: \((-\infty, 9]\).</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="exp-log">
+        <h2>Exponencial e logaritmo</h2>
+        <p>Na exponencial \(f(x) = b^x\), com \(b \gt 0\) e \(b \ne 1\), a variável está no expoente. Cada vez que \(x\) aumenta 1, o valor é multiplicado por \(b\). Por isso ela cresce muito rápido quando \(b \gt 1\). A base mais importante do Cálculo é \(e \approx 2{,}71828\).</p>
+        <p>O logaritmo é a operação inversa: \(\log_b y = x\) significa \(b^x = y\). Ele responde à pergunta "a que potência devo elevar \(b\) para obter \(y\)?". Seu domínio são os reais positivos, e ele cresce muito devagar.</p>
+
+        <div class="tabela-rolagem">
+          <table class="regras">
+            <thead><tr><th scope="col">Propriedade</th><th scope="col">Exponencial</th><th scope="col">Logaritmo</th></tr></thead>
+            <tbody>
+              <tr><td>Produto</td><td>\(b^m \cdot b^n = b^{m+n}\)</td><td>\(\log(xy) = \log x + \log y\)</td></tr>
+              <tr><td>Quociente</td><td>\(b^m / b^n = b^{m-n}\)</td><td>\(\log(x/y) = \log x - \log y\)</td></tr>
+              <tr><td>Potência</td><td>\((b^m)^n = b^{mn}\)</td><td>\(\log x^n = n \log x\)</td></tr>
+              <tr><td>Mudança de base</td><td>\(b^x = e^{x \ln b}\)</td><td>\(\log_b x = \frac{\ln x}{\ln b}\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="computacao">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
+          <p>Uma senha de 8 caracteres com 62 símbolos possíveis tem \(62^8 \approx 2{,}2 \times 10^{14}\) combinações. Cada caractere a mais multiplica esse número por 62. Esse crescimento exponencial é o que torna a força bruta inviável.</p>
+          <p>O logaritmo aparece no sentido oposto. A busca binária corta a lista ao meio a cada passo, então encontra um item entre 1 milhão em cerca de \(\log_2 10^6 \approx 20\) comparações.</p>
+        </div>
+      </section>
+
+      <section id="trigonometricas">
+        <h2>Funções trigonométricas</h2>
+        <p>Seno e cosseno descrevem fenômenos que se repetem. No círculo de raio 1, um ângulo \(x\) (em radianos) determina o ponto \((\cos x, \operatorname{sen} x)\). As duas funções têm imagem \([-1, 1]\) e período \(2\pi\).</p>
+        <p>Em \(f(x) = a \operatorname{sen}(bx)\), \(|a|\) é a <strong>amplitude</strong> e \(\frac{2\pi}{b}\) é o <strong>período</strong>. A tangente, \(\tan x = \frac{\operatorname{sen} x}{\cos x}\), não está definida onde \(\cos x = 0\).</p>
+        <p>Identidade fundamental: \(\operatorname{sen}^2 x + \cos^2 x = 1\).</p>
+      </section>
+
+      <section id="modelagem">
+        <h2>Modelagem de problemas</h2>
+        <p>Modelar é traduzir uma situação real para uma função. O roteiro é sempre parecido:</p>
+        <ol>
+          <li>identificar a variável de entrada e a de saída, com unidades;</li>
+          <li>observar o padrão: soma fixa por passo sugere 1º grau, multiplicação fixa por passo sugere exponencial;</li>
+          <li>usar dados conhecidos para achar os parâmetros;</li>
+          <li>testar o modelo com um valor que você já conhece.</li>
+        </ol>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: custo de servidor ou crescimento de dados</h4>
+          <p>Um serviço paga R$ 200 fixos por mês mais R$ 0,05 por requisição. Os dados armazenados começam em 50 GB e crescem 10% ao mês. Escreva os dois modelos.</p>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Custo: soma-se um valor fixo a cada requisição, então é 1º grau. \(C(n) = 0{,}05n + 200\). Com 10 mil requisições: \(C = 700\) reais.</li>
+              <li>Dados: multiplica-se por 1,1 a cada mês, então é exponencial. \(D(t) = 50 \cdot 1{,}1^t\).</li>
+              <li>Quando os dados passam de 100 GB? \(1{,}1^t = 2 \Rightarrow t = \frac{\ln 2}{\ln 1{,}1} \approx 7{,}3\). Isso acontece no 8º mês.</li>
+            </ol>
+          </details>
+        </div>
+
+        <div class="computacao">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Escalabilidade de código</h4>
+          <p>O tempo de execução de um algoritmo é uma função do tamanho da entrada \(n\). Um laço simples custa algo como \(T(n) = an + b\). Dois laços aninhados custam \(T(n) = an^2 + bn + c\).</p>
+          <pre><code>for i in range(n):        # n vezes
+    for j in range(n):    # n vezes para cada i
+        processa(i, j)    # total: n² operações</code></pre>
+          <p>Dobrar \(n\) dobra o tempo no primeiro caso e quadruplica no segundo. O bloco 2 mostra como os limites formalizam essa comparação.</p>
+        </div>
+      </section>
+
+      <section id="exercicios">
+        <h2>Exercícios</h2>
+        <div data-exercicios="funcoes"></div>
+      </section>
+
+      <nav class="seguinte" aria-label="Navegação entre blocos">
+        <a class="prox" href="limites.html"><small>Próximo bloco</small><strong>Limites e continuidade</strong></a>
+      </nav>
+    </main>
+  </div>
+
+  <footer class="rodape">
+    <div>
+      <span>Tangente: material de estudo de Cálculo Diferencial e Integral.</span>
+      <span>Trabalho acadêmico, 2026.</span>
+    </div>
+  </footer>
+</body>
+</html>

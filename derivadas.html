@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cálculo diferencial | Tangente</title>
+  <meta name="description" content="Bloco 3: derivada como limite, reta tangente, regras de derivação, regra da cadeia, máximos e mínimos, Teorema do Valor Médio e Gradient Descent.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script defer src="js/graficos.js"></script>
+  <script defer src="js/questoes.js"></script>
+  <script defer src="js/demos.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body class="bloco-derivadas">
+  <a class="pular" href="#principal">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo-interno">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26C10 26 14 6 29 5" fill="none" stroke="#2457d6" stroke-width="3" stroke-linecap="round"/><line x1="6" y1="25.6" x2="20" y2="6.4" stroke="#c42a6b" stroke-width="2.5" stroke-linecap="round"/><circle cx="13" cy="16" r="3.2" fill="#c42a6b"/></svg>
+        <span>Tangente</span>
+      </a>
+      <nav class="menu" aria-label="Blocos da disciplina">
+        <a href="funcoes.html" data-bloco="funcoes">Funções</a>
+        <a href="limites.html" data-bloco="limites">Limites</a>
+        <a href="derivadas.html" data-bloco="derivadas" aria-current="page">Derivadas</a>
+        <a href="integrais.html" data-bloco="integrais">Integrais</a>
+        <a href="quiz.html" data-bloco="quiz">Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="pagina">
+    <aside class="sumario" aria-label="Nesta página">
+      <h2>Nesta página</h2>
+      <ol>
+        <li><a href="#conceito">Conceito de derivada</a></li>
+        <li><a href="#regras">Regras de derivação</a></li>
+        <li><a href="#cadeia">Regra da cadeia</a></li>
+        <li><a href="#maximos">Máximos e mínimos</a></li>
+        <li><a href="#tvm">Valor Médio</a></li>
+        <li><a href="#gradiente">Gradient Descent</a></li>
+        <li><a href="#exercicios">Exercícios</a></li>
+      </ol>
+    </aside>
+
+    <main class="conteudo" id="principal">
+      <header class="abertura">
+        <p class="bloco-num">Bloco 3</p>
+        <h1>Cálculo diferencial</h1>
+        <p class="lead">A derivada mede a velocidade com que uma função muda num instante exato. Com ela encontramos picos e vales de curvas, e é ela que diz a uma rede neural em que direção ajustar seus pesos.</p>
+      </header>
+
+      <section id="conceito">
+        <h2>Conceito de derivada</h2>
+        <p>A taxa de variação média de \(f\) entre \(a\) e \(a + h\) é a inclinação da reta <strong>secante</strong> que liga os dois pontos do gráfico:</p>
+        \[ \frac{\Delta y}{\Delta x} = \frac{f(a + h) - f(a)}{h} \]
+        <p>Para obter a taxa <em>instantânea</em>, fazemos \(h\) tender a zero. Aqui entra o limite do bloco anterior.</p>
+
+        <figure class="explorar" data-demo="secante">
+          <div class="area-grafico"></div>
+          <figcaption>Leve <strong>h</strong> para perto de zero. A secante âmbar gira até coincidir com a tangente magenta, e a inclinação da secante converge para \(f'(a)\).</figcaption>
+        </figure>
+
+        <div class="definicao">
+          <h4>Definição</h4>
+          <p>A derivada de \(f\) no ponto \(a\) é</p>
+          \[ f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}, \]
+          <p>quando esse limite existe. Geometricamente, \(f'(a)\) é a inclinação da reta tangente ao gráfico em \((a, f(a))\). A equação dessa reta é \(y - f(a) = f'(a)(x - a)\).</p>
+        </div>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: derive \(f(x) = x^2\) pela definição</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>\(\dfrac{f(x+h) - f(x)}{h} = \dfrac{(x+h)^2 - x^2}{h} = \dfrac{2xh + h^2}{h}\).</li>
+              <li>Simplifique por \(h\), que é diferente de zero dentro do limite: \(2x + h\).</li>
+              <li>\(f'(x) = \lim_{h \to 0} (2x + h) = 2x\).</li>
+            </ol>
+          </details>
+        </div>
+        <p>Outras notações para a derivada: \(f'(x)\), \(\frac{dy}{dx}\), \(\frac{d}{dx}f(x)\) e \(\dot{y}\). Se \(f\) é derivável em \(a\), então é contínua em \(a\). O contrário não vale: \(|x|\) é contínua em 0, mas tem um bico ali e não é derivável.</p>
+      </section>
+
+      <section id="regras">
+        <h2>Regras de derivação</h2>
+        <p>Calcular sempre pela definição seria lento. As regras abaixo saem dela e resolvem quase tudo.</p>
+        <div class="tabela-rolagem">
+          <table class="regras">
+            <thead><tr><th scope="col">Função</th><th scope="col">Derivada</th></tr></thead>
+            <tbody>
+              <tr><td>\(c\) (constante)</td><td>\(0\)</td></tr>
+              <tr><td>\(x^n\)</td><td>\(n x^{n-1}\)</td></tr>
+              <tr><td>\(e^x\)</td><td>\(e^x\)</td></tr>
+              <tr><td>\(a^x\)</td><td>\(a^x \ln a\)</td></tr>
+              <tr><td>\(\ln x\)</td><td>\(\frac{1}{x}\)</td></tr>
+              <tr><td>\(\operatorname{sen} x\)</td><td>\(\cos x\)</td></tr>
+              <tr><td>\(\cos x\)</td><td>\(-\operatorname{sen} x\)</td></tr>
+              <tr><td>\(\tan x\)</td><td>\(\sec^2 x\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Combinando funções</h3>
+        <div class="tabela-rolagem">
+          <table class="regras">
+            <thead><tr><th scope="col">Regra</th><th scope="col">Fórmula</th></tr></thead>
+            <tbody>
+              <tr><td>Soma</td><td>\((f + g)' = f' + g'\)</td></tr>
+              <tr><td>Constante</td><td>\((c f)' = c f'\)</td></tr>
+              <tr><td>Produto</td><td>\((f g)' = f' g + f g'\)</td></tr>
+              <tr><td>Quociente</td><td>\(\left(\dfrac{f}{g}\right)' = \dfrac{f' g - f g'}{g^2}\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: derive \(h(x) = \dfrac{x^2 + 1}{e^x}\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Quociente com \(f = x^2 + 1\), \(f' = 2x\), \(g = e^x\), \(g' = e^x\).</li>
+              <li>\(h'(x) = \dfrac{2x e^x - (x^2 + 1)e^x}{e^{2x}}\).</li>
+              <li>Coloque \(e^x\) em evidência e simplifique: \(h'(x) = \dfrac{-x^2 + 2x - 1}{e^x} = -\dfrac{(x - 1)^2}{e^x}\).</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="cadeia">
+        <h2>Regra da cadeia</h2>
+        <p>Funções compostas são funções dentro de funções, como \(\operatorname{sen}(x^2)\) ou \(e^{3x+1}\). Para derivar, multiplique a derivada da função de fora (calculada na de dentro) pela derivada da função de dentro:</p>
+        \[ \frac{d}{dx} f(g(x)) = f'(g(x)) \cdot g'(x) \qquad \text{ou} \qquad \frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx} \]
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: derive \(y = (3x^2 + 1)^5\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>De fora: \(u^5\), com derivada \(5u^4\). De dentro: \(u = 3x^2 + 1\), com derivada \(6x\).</li>
+              <li>\(y' = 5(3x^2 + 1)^4 \cdot 6x = 30x(3x^2 + 1)^4\).</li>
+            </ol>
+          </details>
+        </div>
+
+        <div class="computacao">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação: backpropagation</h4>
+          <p>Uma rede neural é uma grande função composta: camada sobre camada. O algoritmo de <em>backpropagation</em> é a regra da cadeia aplicada de trás para frente. Ele calcula quanto o erro final muda quando cada peso muda, multiplicando as derivadas de cada camada.</p>
+        </div>
+      </section>
+
+      <section id="maximos">
+        <h2>Máximos, mínimos e esboço de curvas</h2>
+        <p>O sinal da derivada conta a história da função:</p>
+        <ul>
+          <li>\(f'(x) \gt 0\) num intervalo: \(f\) é <strong>crescente</strong> ali;</li>
+          <li>\(f'(x) \lt 0\): \(f\) é <strong>decrescente</strong>;</li>
+          <li>\(f'(c) = 0\) ou \(f'(c)\) não existe: \(c\) é um <strong>ponto crítico</strong>, candidato a máximo ou mínimo.</li>
+        </ul>
+        <p>A segunda derivada mede a curvatura. Com \(f'' \gt 0\) a concavidade é para cima, e com \(f'' \lt 0\) é para baixo. Onde a concavidade troca de sentido há um <strong>ponto de inflexão</strong>.</p>
+
+        <div class="definicao">
+          <h4>Teste da segunda derivada</h4>
+          <p>Se \(f'(c) = 0\) e \(f''(c) \gt 0\), então \(c\) é mínimo local. Se \(f'(c) = 0\) e \(f''(c) \lt 0\), então \(c\) é máximo local. Se \(f''(c) = 0\), o teste não conclui: use o sinal de \(f'\) antes e depois de \(c\).</p>
+        </div>
+
+        <h3>Roteiro para esboçar uma curva</h3>
+        <ol>
+          <li>Domínio e interseções com os eixos.</li>
+          <li>Assíntotas, usando limites.</li>
+          <li>\(f'\): pontos críticos e intervalos de crescimento.</li>
+          <li>\(f''\): concavidade e inflexões.</li>
+          <li>Marque os pontos e ligue.</li>
+        </ol>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: otimização de uma área</h4>
+          <p>Com 40 m de cerca, qual retângulo tem a maior área?</p>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Lados \(x\) e \(y\): \(2x + 2y = 40 \Rightarrow y = 20 - x\).</li>
+              <li>Área: \(A(x) = x(20 - x) = 20x - x^2\), com \(0 \lt x \lt 20\).</li>
+              <li>\(A'(x) = 20 - 2x = 0 \Rightarrow x = 10\).</li>
+              <li>\(A''(x) = -2 \lt 0\): é máximo. O melhor retângulo é um quadrado de 10 m, com área de 100 m².</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="tvm">
+        <h2>Teorema do Valor Médio</h2>
+        <div class="definicao">
+          <h4>Teorema</h4>
+          <p>Se \(f\) é contínua em \([a, b]\) e derivável em \((a, b)\), existe pelo menos um \(c \in (a, b)\) tal que</p>
+          \[ f'(c) = \frac{f(b) - f(a)}{b - a}. \]
+        </div>
+        <p>Em algum instante, a taxa instantânea é igual à taxa média. Exemplo prático: se um carro percorreu 120 km em 1 hora, em algum momento o velocímetro marcou exatamente 120 km/h. O caso particular em que \(f(a) = f(b)\) é o <strong>Teorema de Rolle</strong>: existe um ponto com tangente horizontal.</p>
+      </section>
+
+      <section id="gradiente">
+        <h2>Gradient Descent</h2>
+        <p>Treinar um modelo de aprendizado de máquina é procurar os parâmetros que tornam o erro, ou <strong>custo</strong>, o menor possível. É um problema de mínimo, e a derivada mostra o caminho: ela aponta para onde a função sobe, então andamos no sentido oposto.</p>
+        \[ w_{\text{novo}} = w - \eta \cdot f'(w) \]
+        <p>O símbolo \(\eta\) é a <strong>taxa de aprendizado</strong>, o tamanho de cada passo.</p>
+
+        <figure class="explorar" data-demo="gradiente">
+          <div class="area-grafico"></div>
+          <figcaption>Clique em <strong>Dar um passo</strong> algumas vezes. Com \(\eta\) pequeno, o ponto fica preso no vale da esquerda: um <strong>mínimo local</strong>, que não é o mais fundo. Com \(\eta\) acima de 0,6, os passos ficam grandes demais e o ponto salta de um lado para o outro. Escolher a taxa é parte do treino de qualquer rede neural.</figcaption>
+        </figure>
+
+        <div class="computacao">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>O algoritmo em Python</h4>
+          <pre><code>def gradient_descent(derivada, w, taxa=0.1, passos=100):
+    for _ in range(passos):
+        w = w - taxa * derivada(w)
+    return w
+
+# custo f(w) = (w - 3)², derivada f'(w) = 2(w - 3)
+print(gradient_descent(lambda w: 2 * (w - 3), w=0))  # ≈ 3.0</code></pre>
+          <p>Redes neurais reais fazem exatamente isso, só que com milhões de pesos ao mesmo tempo. A derivada vira o <em>gradiente</em>, o vetor com a derivada parcial em relação a cada peso.</p>
+        </div>
+      </section>
+
+      <section id="exercicios">
+        <h2>Exercícios</h2>
+        <div data-exercicios="derivadas"></div>
+      </section>
+
+      <nav class="seguinte" aria-label="Navegação entre blocos">
+        <a href="limites.html"><small>Bloco anterior</small><strong>Limites e continuidade</strong></a>
+        <a class="prox" href="integrais.html"><small>Próximo bloco</small><strong>Cálculo integral</strong></a>
+      </nav>
+    </main>
+  </div>
+
+  <footer class="rodape">
+    <div>
+      <span>Tangente: material de estudo de Cálculo Diferencial e Integral.</span>
+      <span>Trabalho acadêmico, 2026.</span>
+    </div>
+  </footer>
+</body>
+</html>

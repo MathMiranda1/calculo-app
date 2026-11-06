@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Limites e continuidade | Tangente</title>
+  <meta name="description" content="Bloco 2: noção intuitiva e formal de limite, indeterminações, limites laterais e no infinito, continuidade e Big-O.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script defer src="js/graficos.js"></script>
+  <script defer src="js/questoes.js"></script>
+  <script defer src="js/demos.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body class="bloco-limites">
+  <a class="pular" href="#principal">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo-interno">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26C10 26 14 6 29 5" fill="none" stroke="#2457d6" stroke-width="3" stroke-linecap="round"/><line x1="6" y1="25.6" x2="20" y2="6.4" stroke="#c42a6b" stroke-width="2.5" stroke-linecap="round"/><circle cx="13" cy="16" r="3.2" fill="#c42a6b"/></svg>
+        <span>Tangente</span>
+      </a>
+      <nav class="menu" aria-label="Blocos da disciplina">
+        <a href="funcoes.html" data-bloco="funcoes">Funções</a>
+        <a href="limites.html" data-bloco="limites" aria-current="page">Limites</a>
+        <a href="derivadas.html" data-bloco="derivadas">Derivadas</a>
+        <a href="integrais.html" data-bloco="integrais">Integrais</a>
+        <a href="quiz.html" data-bloco="quiz">Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="pagina">
+    <aside class="sumario" aria-label="Nesta página">
+      <h2>Nesta página</h2>
+      <ol>
+        <li><a href="#intuicao">Ideia intuitiva</a></li>
+        <li><a href="#definicao">Definição formal</a></li>
+        <li><a href="#propriedades">Propriedades e indeterminações</a></li>
+        <li><a href="#laterais">Limites laterais</a></li>
+        <li><a href="#infinito">Limites no infinito</a></li>
+        <li><a href="#continuidade">Continuidade</a></li>
+        <li><a href="#exercicios">Exercícios</a></li>
+      </ol>
+    </aside>
+
+    <main class="conteudo" id="principal">
+      <header class="abertura">
+        <p class="bloco-num">Bloco 2</p>
+        <h1>Limites e continuidade</h1>
+        <p class="lead">O limite pergunta para onde uma função vai, e não onde ela está. Essa diferença permite estudar pontos em que a função nem existe e comportamentos quando a entrada cresce sem parar.</p>
+      </header>
+
+      <section id="intuicao">
+        <h2>Ideia intuitiva</h2>
+        <p>Considere \(f(x) = \dfrac{x^2 - 1}{x - 1}\). Em \(x = 1\) a conta dá \(\frac{0}{0}\), então \(f(1)\) não existe. Mesmo assim, podemos perguntar: o que acontece com \(f(x)\) quando \(x\) chega <em>muito perto</em> de 1?</p>
+
+        <figure class="explorar" data-demo="buraco">
+          <div class="area-grafico"></div>
+          <figcaption>Diminua a distância até 1. Os dois pontos âmbar se aproximam do furo por lados opostos, e os valores de \(f\) se aproximam de <strong>2</strong>, sem nunca chegar no ponto proibido.</figcaption>
+        </figure>
+
+        <p>Escrevemos \(\displaystyle\lim_{x \to 1} \frac{x^2 - 1}{x - 1} = 2\). A explicação algébrica é que, para \(x \ne 1\), a fração simplifica: \(\frac{(x-1)(x+1)}{x-1} = x + 1\), que vale 2 perto de \(x = 1\).</p>
+      </section>
+
+      <section id="definicao">
+        <h2>Definição formal</h2>
+        <p>A ideia de "chegar perto" precisa de precisão. A definição de Cauchy e Weierstrass transforma isso num desafio: você escolhe uma tolerância para a saída, e eu preciso achar uma tolerância para a entrada que a garanta.</p>
+        <div class="definicao">
+          <h4>Definição (ε–δ)</h4>
+          <p>\(\displaystyle\lim_{x \to a} f(x) = L\) quando, para todo \(\varepsilon \gt 0\), existe \(\delta \gt 0\) tal que</p>
+          \[ 0 \lt |x - a| \lt \delta \implies |f(x) - L| \lt \varepsilon. \]
+          <p>Em palavras: dá para deixar \(f(x)\) tão perto de \(L\) quanto se queira, bastando deixar \(x\) suficientemente perto de \(a\), sem ser igual a \(a\).</p>
+        </div>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: prove que \(\lim_{x \to 3} (2x + 1) = 7\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Queremos \(|(2x + 1) - 7| \lt \varepsilon\), ou seja, \(|2x - 6| = 2|x - 3| \lt \varepsilon\).</li>
+              <li>Isso vale sempre que \(|x - 3| \lt \frac{\varepsilon}{2}\).</li>
+              <li>Escolha \(\delta = \frac{\varepsilon}{2}\). Então \(0 \lt |x - 3| \lt \delta \implies |f(x) - 7| \lt \varepsilon\). ∎</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="propriedades">
+        <h2>Propriedades e indeterminações</h2>
+        <p>Se \(\lim_{x \to a} f(x) = L\) e \(\lim_{x \to a} g(x) = M\), então os limites respeitam as operações:</p>
+        <div class="tabela-rolagem">
+          <table class="regras">
+            <thead><tr><th scope="col">Operação</th><th scope="col">Regra</th></tr></thead>
+            <tbody>
+              <tr><td>Soma e diferença</td><td>\(\lim (f \pm g) = L \pm M\)</td></tr>
+              <tr><td>Constante</td><td>\(\lim c \cdot f = c \cdot L\)</td></tr>
+              <tr><td>Produto</td><td>\(\lim (f \cdot g) = L \cdot M\)</td></tr>
+              <tr><td>Quociente</td><td>\(\lim \frac{f}{g} = \frac{L}{M}\), se \(M \ne 0\)</td></tr>
+              <tr><td>Potência</td><td>\(\lim f^n = L^n\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Para polinômios basta substituir: \(\lim_{x \to 2} (x^3 - x) = 6\). O problema aparece quando a substituição gera uma <strong>indeterminação</strong>, uma expressão sem valor definido: \(\frac{0}{0}\), \(\frac{\infty}{\infty}\), \(\infty - \infty\), \(0 \cdot \infty\), \(1^\infty\), \(0^0\) e \(\infty^0\).</p>
+
+        <h3>Técnicas para sair da indeterminação</h3>
+        <ul>
+          <li><strong>Fatoração:</strong> cancele o fator que zera numerador e denominador.</li>
+          <li><strong>Racionalização:</strong> multiplique pelo conjugado quando houver raízes.</li>
+          <li><strong>Maior potência:</strong> em \(\frac{\infty}{\infty}\), divida tudo pela maior potência de \(x\).</li>
+          <li><strong>Limites fundamentais:</strong> \(\displaystyle\lim_{x \to 0} \frac{\operatorname{sen} x}{x} = 1\) e \(\displaystyle\lim_{x \to \infty} \left(1 + \frac{1}{x}\right)^x = e\).</li>
+        </ul>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: \(\displaystyle\lim_{x \to 9} \frac{\sqrt{x} - 3}{x - 9}\)</h4>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Substituindo: \(\frac{0}{0}\). Indeterminação.</li>
+              <li>Multiplique pelo conjugado \(\sqrt{x} + 3\): \(\frac{(\sqrt{x} - 3)(\sqrt{x} + 3)}{(x - 9)(\sqrt{x} + 3)} = \frac{x - 9}{(x - 9)(\sqrt{x} + 3)}\).</li>
+              <li>Cancele \(x - 9\): sobra \(\frac{1}{\sqrt{x} + 3}\).</li>
+              <li>Agora substitua: \(\frac{1}{3 + 3} = \frac{1}{6}\).</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section id="laterais">
+        <h2>Limites laterais</h2>
+        <p>Às vezes a função se comporta de um jeito à esquerda de \(a\) e de outro à direita. Por isso definimos:</p>
+        <ul>
+          <li>\(\lim_{x \to a^-} f(x)\): \(x\) se aproxima de \(a\) por valores menores;</li>
+          <li>\(\lim_{x \to a^+} f(x)\): \(x\) se aproxima de \(a\) por valores maiores.</li>
+        </ul>
+        <div class="definicao">
+          <h4>Teorema</h4>
+          <p>\(\lim_{x \to a} f(x) = L\) existe se, e somente se, os dois limites laterais existem e são iguais a \(L\).</p>
+        </div>
+        <p>Exemplo clássico: \(f(x) = \frac{|x|}{x}\) vale \(-1\) para \(x \lt 0\) e \(1\) para \(x \gt 0\). Os laterais em 0 são \(-1\) e \(1\), então \(\lim_{x \to 0} f(x)\) não existe.</p>
+      </section>
+
+      <section id="infinito">
+        <h2>Limites no infinito</h2>
+        <p>\(\lim_{x \to +\infty} f(x) = L\) descreve o valor do qual \(f\) se aproxima quando \(x\) cresce sem limite. Quando isso acontece, a reta \(y = L\) é uma <strong>assíntota horizontal</strong>. Para frações de polinômios, compare os graus do numerador e do denominador:</p>
+        <ul>
+          <li>grau de cima menor: o limite é 0;</li>
+          <li>graus iguais: o limite é a razão dos coeficientes líderes;</li>
+          <li>grau de cima maior: o limite é \(\pm\infty\).</li>
+        </ul>
+
+        <figure class="explorar" data-demo="infinito">
+          <div class="area-grafico"></div>
+          <figcaption>Aumente \(n\). Para entradas pequenas as curvas parecem próximas, mas \(n^2\) logo dispara. A razão \(\frac{n \log n}{n^2}\) vai para <strong>zero</strong>: esse limite prova que \(n \log n\) cresce mais devagar.</figcaption>
+        </figure>
+
+        <div class="computacao">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação: notação Big-O</h4>
+          <p>Dizer que um algoritmo é \(O(g(n))\) significa que, para \(n\) grande, seu custo não passa de uma constante vezes \(g(n)\). Uma forma prática de comparar dois custos é pelo limite da razão:</p>
+          \[ \lim_{n \to \infty} \frac{f(n)}{g(n)} = \begin{cases} 0 & f \text{ cresce mais devagar que } g \\ c \gt 0 & \text{mesma ordem: } f = \Theta(g) \\ \infty & f \text{ cresce mais rápido que } g \end{cases} \]
+          <p>Exemplo: \(\lim_{n \to \infty} \frac{3n^2 + 5n}{n^2} = 3\). As constantes e os termos menores somem, então \(3n^2 + 5n = \Theta(n^2)\).</p>
+        </div>
+      </section>
+
+      <section id="continuidade">
+        <h2>Continuidade</h2>
+        <p>Intuitivamente, uma função é contínua quando dá para desenhar o gráfico sem tirar o lápis do papel. Formalmente:</p>
+        <div class="definicao">
+          <h4>Definição</h4>
+          <p>\(f\) é contínua em \(x = a\) quando as três condições valem:</p>
+          <ol>
+            <li>\(f(a)\) existe;</li>
+            <li>\(\lim_{x \to a} f(x)\) existe;</li>
+            <li>\(\lim_{x \to a} f(x) = f(a)\).</li>
+          </ol>
+        </div>
+        <h3>Tipos de descontinuidade</h3>
+        <ul>
+          <li><strong>Removível:</strong> o limite existe, mas \(f(a)\) não existe ou é diferente dele. É o furo do primeiro gráfico desta página. Basta redefinir \(f(a)\).</li>
+          <li><strong>De salto:</strong> os limites laterais existem, mas são diferentes.</li>
+          <li><strong>Infinita:</strong> pelo menos um lateral vai para \(\pm\infty\), como \(\frac{1}{x}\) em 0. Há uma assíntota vertical.</li>
+        </ul>
+        <p>Polinômios, exponenciais, seno e cosseno são contínuos em todos os reais. Frações, raízes e logaritmos são contínuos em todo o seu domínio.</p>
+
+        <div class="exemplo">
+          <h4>Exemplo resolvido: para que valor de \(k\) a função é contínua?</h4>
+          <p>\(f(x) = x^2 + 1\) se \(x \lt 2\), e \(f(x) = kx - 1\) se \(x \ge 2\).</p>
+          <details>
+            <summary>Ver solução</summary>
+            <ol>
+              <li>Limite pela esquerda: \(2^2 + 1 = 5\).</li>
+              <li>Limite pela direita e \(f(2)\): \(2k - 1\).</li>
+              <li>Para haver continuidade: \(2k - 1 = 5 \Rightarrow k = 3\).</li>
+            </ol>
+          </details>
+        </div>
+
+        <div class="computacao">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Descontinuidades em sistemas</h4>
+          <p>Planos de nuvem que mudam de preço ao passar de uma faixa de uso geram descontinuidades de salto no custo. Em métricas de monitoramento, um salto repentino na latência é um sinal de incidente. Já funções de ativação de redes neurais precisam ser contínuas para que o treinamento por derivadas funcione.</p>
+        </div>
+      </section>
+
+      <section id="exercicios">
+        <h2>Exercícios</h2>
+        <div data-exercicios="limites"></div>
+      </section>
+
+      <nav class="seguinte" aria-label="Navegação entre blocos">
+        <a href="funcoes.html"><small>Bloco anterior</small><strong>Funções reais e modelagem</strong></a>
+        <a class="prox" href="derivadas.html"><small>Próximo bloco</small><strong>Cálculo diferencial</strong></a>
+      </nav>
+    </main>
+  </div>
+
+  <footer class="rodape">
+    <div>
+      <span>Tangente: material de estudo de Cálculo Diferencial e Integral.</span>
+      <span>Trabalho acadêmico, 2026.</span>
+    </div>
+  </footer>
+</body>
+</html>
