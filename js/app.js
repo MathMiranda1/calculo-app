@@ -40,12 +40,15 @@ const Progresso = {
 const LETRAS = ["A", "B", "C", "D", "E"];
 
 function montarQuestao(q, numero, aoResponder) {
+  // Alternativas em ordem sorteada a cada exibição; data-i guarda o índice original
+  const ordem = embaralhar(q.opcoes.map((_, i) => i));
+  const posCorreta = ordem.indexOf(q.correta);
   const art = document.createElement("article");
   art.className = "questao";
   art.innerHTML = `
     <p class="enunciado"><span class="n">${numero}.</span>${q.enunciado}</p>
     <ul class="opcoes">
-      ${q.opcoes.map((o, i) => `<li><button type="button" data-i="${i}"><span class="letra">${LETRAS[i]}</span><span>${o}</span></button></li>`).join("")}
+      ${ordem.map((i, pos) => `<li><button type="button" data-i="${i}"><span class="letra">${LETRAS[pos]}</span><span>${q.opcoes[i]}</span></button></li>`).join("")}
     </ul>
     <div class="retorno" hidden aria-live="polite"></div>`;
 
@@ -56,11 +59,11 @@ function montarQuestao(q, numero, aoResponder) {
     const escolha = +b.dataset.i;
     const acertou = escolha === q.correta;
     botoes.forEach((x) => { x.disabled = true; });
-    botoes[q.correta].classList.add("certa");
+    botoes[posCorreta].classList.add("certa");
     if (!acertou) b.classList.add("errada");
     retorno.hidden = false;
     retorno.className = "retorno " + (acertou ? "acerto" : "erro");
-    retorno.innerHTML = `<span class="veredito">${acertou ? "Correto." : `Resposta certa: ${LETRAS[q.correta]}.`}</span>${q.explicacao}`;
+    retorno.innerHTML = `<span class="veredito">${acertou ? "Correto." : `Resposta certa: ${LETRAS[posCorreta]}.`}</span>${q.explicacao}`;
     renderizarMat(retorno);
     Progresso.salvar(q.id, acertou);
     if (aoResponder) aoResponder(acertou);
@@ -71,14 +74,17 @@ function montarQuestao(q, numero, aoResponder) {
 }
 
 // Lista de exercícios no fim de cada página de bloco
+// data-tipo (opcional) filtra as questões de um assunto, como as de cada aba de funcoes.html
 function montarExercicios(container) {
   const bloco = container.dataset.exercicios;
-  const qs = QUESTOES.filter((q) => q.bloco === bloco);
+  const tipo = container.dataset.tipo;
+  const qs = QUESTOES.filter((q) => q.bloco === bloco && (!tipo || q.tipo === tipo));
   const resumo = document.createElement("p");
   resumo.className = "resumo-exercicios";
   const atualizar = () => {
-    const { certas, total } = Progresso.doBloco(bloco);
-    resumo.textContent = `${total} questões. Você já acertou ${certas}. Clique numa alternativa para ver a correção.`;
+    const p = Progresso.ler();
+    const certas = qs.filter((q) => p[q.id]).length;
+    resumo.textContent = `${qs.length} questões. Você já acertou ${certas}. Clique numa alternativa para ver a correção.`;
   };
   container.appendChild(resumo);
   qs.forEach((q, i) => container.appendChild(montarQuestao(q, i + 1, atualizar)));
@@ -163,7 +169,11 @@ function iniciarQuiz(raiz) {
       return;
     }
     const total = +form.querySelector("select").value;
-    const lista = embaralhar(QUESTOES.filter((q) => blocos.includes(q.bloco))).slice(0, total);
+    // Sorteio equilibrado: alterna entre os blocos marcados para nenhum ficar de fora
+    const grupos = embaralhar(blocos).map((b) => embaralhar(QUESTOES.filter((q) => q.bloco === b)));
+    const intercalada = [];
+    for (let i = 0; grupos.some((g) => i < g.length); i++) grupos.forEach((g) => { if (i < g.length) intercalada.push(g[i]); });
+    const lista = embaralhar(intercalada.slice(0, total));
     rodar(lista);
   });
 

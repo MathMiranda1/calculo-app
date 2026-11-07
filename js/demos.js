@@ -267,21 +267,90 @@ const DEMOS = {
     const sel = seletor(ctr, { rotulo: "Função", opcoes: [["sen", "Seno"], ["cos", "Cosseno"], ["tg", "Tangente"]] });
     const sa = deslizador(ctr, { rotulo: "a (amplitude)", min: -3, max: 3, passo: 0.5, valor: 1, mostrar: (v) => fmt(v, 1) });
     const sb = deslizador(ctr, { rotulo: "b (frequência)", min: 0.5, max: 4, passo: 0.5, valor: 1, mostrar: (v) => fmt(v, 1) });
+    // c em múltiplos de π: o valor do controle é k, e c = kπ
+    const piTexto = (k) => (k === 0 ? "0" : `${k < 0 ? "−" : ""}${Math.abs(k) === 1 ? "" : fmt(Math.abs(k), 2)}π`);
+    const sc = deslizador(ctr, { rotulo: "c (fase)", min: -1, max: 1, passo: 0.25, valor: 0, mostrar: piTexto });
     const fns = { sen: Math.sin, cos: Math.cos, tg: Math.tan };
     function desenhar() {
-      const t = sel.value, a = +sa.value, b = +sb.value;
-      g.limpar().funcao((x) => a * fns[t](b * x), { cor: "var(--funcoes)", espessura: 3, amostras: 1200 });
+      const t = sel.value, a = +sa.value, b = +sb.value, k = +sc.value, c = k * Math.PI;
+      g.limpar();
+      if (k !== 0) g.funcao((x) => a * fns[t](b * x), { cor: "var(--grafite)", espessura: 1.5, tracejado: true, opacidade: 0.6, amostras: 1200 });
+      g.funcao((x) => a * fns[t](b * x + c), { cor: "var(--funcoes)", espessura: 3, amostras: 1200 });
       const periodo = (t === "tg" ? Math.PI : 2 * Math.PI) / b;
       const nome = { sen: "sen", cos: "cos", tg: "tg" }[t];
+      const desloc = -c / b;
       ler(leitura, [
-        [`f(x) = ${fmt(a, 1)} · ${nome}(${fmt(b, 1)}x)`, "", "funcoes"],
+        [`f(x) = ${fmt(a, 1)} · ${nome}(${fmt(b, 1)}x ${k < 0 ? "−" : "+"} ${piTexto(Math.abs(k))})`, "", "funcoes"],
         ["período", `${fmt(periodo, 2)} (= ${t === "tg" ? "π" : "2π"}/${fmt(b, 1)})`],
         t === "tg" ? ["imagem", "ℝ"] : ["imagem", `[${fmt(-Math.abs(a), 1)}; ${fmt(Math.abs(a), 1)}]`],
+        ["deslocamento", k === 0 ? "nenhum" : `${fmt(Math.abs(desloc), 2)} para a ${desloc < 0 ? "esquerda" : "direita"}`],
       ]);
     }
     sel.addEventListener("change", desenhar);
     sa.addEventListener("input", desenhar);
     sb.addEventListener("input", desenhar);
+    sc.addEventListener("input", desenhar);
+    desenhar();
+  },
+
+  // Circunferência trigonométrica com os ângulos notáveis
+  circulo(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const angulos = [0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330, 360];
+    // Mesma escala nos dois eixos: (566 − 52) / (640 − 52) = 2,8 / 3,2
+    const g = Grafico.criar(area, { x: [-1.6, 1.6], y: [-1.4, 1.4], altura: 566, passoX: 0.5, passoY: 0.5, rotulo: "Circunferência trigonométrica de raio 1 com o ponto do ângulo escolhido e suas projeções nos eixos" });
+    const s = deslizador(ctr, { rotulo: "Ângulo θ", min: 0, max: angulos.length - 1, passo: 1, valor: 2, mostrar: (i) => `${angulos[i]}°` });
+
+    // Valores exatos em texto: módulo -> forma com raiz
+    const exatos = [[0, "0"], [0.5, "1/2"], [Math.SQRT2 / 2, "√2/2"], [Math.sqrt(3) / 2, "√3/2"], [1, "1"], [Math.sqrt(3) / 3, "√3/3"], [Math.sqrt(3), "√3"]];
+    const exato = (v) => {
+      if (!Number.isFinite(v)) return "não existe";
+      const e = exatos.find(([x]) => Math.abs(Math.abs(v) - x) < 1e-9);
+      return (v < -1e-9 ? "−" : "") + e[1];
+    };
+    const mdc = (a, b) => (b === 0 ? a : mdc(b, a % b));
+    const rad = (gr) => {
+      if (gr === 0) return "0";
+      const d = mdc(gr, 180), n = gr / d, q = 180 / d;
+      return `${n === 1 ? "" : n}π${q === 1 ? "" : "/" + q}`;
+    };
+    const limpo = (v) => (Math.abs(v) < 1e-9 ? 0 : v);
+
+    function desenhar() {
+      const gr = angulos[+s.value], r = (gr * Math.PI) / 180;
+      const c = limpo(Math.cos(r)), sn = limpo(Math.sin(r));
+      const tg = c === 0 ? NaN : limpo(sn / c);
+      g.limpar()
+        .funcao((x) => Math.sqrt(Math.max(0, 1 - x * x)), { de: -1, ate: 1, cor: "var(--grafite)", espessura: 2, amostras: 400 })
+        .funcao((x) => -Math.sqrt(Math.max(0, 1 - x * x)), { de: -1, ate: 1, cor: "var(--grafite)", espessura: 2, amostras: 400 });
+      angulos.slice(0, -1).forEach((a) => {
+        const ra = (a * Math.PI) / 180;
+        g.ponto(Math.cos(ra), Math.sin(ra), { raio: 3, cor: "var(--grafite)" });
+      });
+      // arco do ângulo, raio e projeções
+      g.segmento(0, 0, 1, 0, { cor: "var(--tinta)", espessura: 1.5 }); // lado inicial do ângulo
+      const arco = [];
+      for (let i = 0; i <= 40; i++) arco.push((r * i) / 40);
+      arco.slice(1).forEach((t, i) => g.segmento(0.22 * Math.cos(arco[i]), 0.22 * Math.sin(arco[i]), 0.22 * Math.cos(t), 0.22 * Math.sin(t), { cor: "var(--tinta)", espessura: 1.5 }));
+      g.segmento(c, 0, c, sn, { cor: "var(--derivadas)", tracejado: "5 5", espessura: 1.5 })
+        .segmento(0, sn, c, sn, { cor: "var(--funcoes)", tracejado: "5 5", espessura: 1.5 })
+        .segmento(0, 0, c, 0, { cor: "var(--funcoes)", espessura: 5 })
+        .segmento(0, 0, 0, sn, { cor: "var(--derivadas)", espessura: 5 })
+        .segmento(0, 0, c, sn, { cor: "var(--tinta)", espessura: 2.5 })
+        .ponto(c, sn, { cor: "var(--tinta)", halo: true })
+        .texto(c, sn, `P(${exato(c)}; ${exato(sn)})`, { dx: c < 0 ? -12 : 12, dy: sn < 0 ? 22 : -12, ancora: c < 0 ? "end" : "start" });
+      const q = gr % 90 === 0 ? "sobre um eixo" : `${Math.floor(gr / 90) + 1}º`;
+      const sinal = (v) => (v > 0 ? "+" : v < 0 ? "−" : "0");
+      ler(leitura, [
+        ["θ =", `${gr}° = ${rad(gr)} rad`],
+        ["quadrante", q],
+        ["cos θ =", exato(c), "funcoes"],
+        ["sen θ =", exato(sn), "derivadas"],
+        ["tg θ =", exato(tg)],
+        ["sinais (sen, cos)", `${sinal(sn)}  ${sinal(c)}`],
+      ]);
+    }
+    s.addEventListener("input", desenhar);
     desenhar();
   },
 

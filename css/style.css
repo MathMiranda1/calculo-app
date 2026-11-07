@@ -492,6 +492,7 @@ a:hover {
   margin: 1.25em 0;
   overflow-x: auto;
   overflow-y: hidden;
+  position: relative;
   padding: 0.25em 0;
 }
 
@@ -533,8 +534,11 @@ a:hover {
   color: var(--grafite);
   border-bottom: 2px solid var(--tinta);
 }
+/* position: relative prende o MathML oculto do KaTeX (position: absolute)
+   dentro da caixa com rolagem; sem isso ele alarga a página no celular. */
 .tabela-rolagem {
   overflow-x: auto;
+  position: relative;
 }
 
 /* Exemplo resolvido */
@@ -964,6 +968,45 @@ input[type="range"]::-moz-range-thumb {
 .notaveis td {
   text-align: center;
 }
+
+/* Triângulo retângulo da aba trigonométrica */
+.triangulo-trig {
+  margin: 1rem 0 0.5rem;
+}
+.triangulo-trig svg {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+.triangulo-trig .tri-lado {
+  fill: var(--cor-bloco-claro);
+  stroke: var(--tinta);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.triangulo-trig .tri-reto,
+.triangulo-trig .tri-angulo {
+  fill: none;
+  stroke: var(--cor-bloco);
+  stroke-width: 1.75;
+}
+.triangulo-trig .tri-texto {
+  font-family: var(--fonte-titulo);
+  font-size: 13px;
+  fill: var(--grafite);
+}
+.triangulo-trig .tri-theta {
+  fill: var(--cor-bloco);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* Circunferência trigonométrica: gráfico quadrado, sem esticar */
+.explorar[data-demo="circulo"] .grafico {
+  max-width: 560px;
+  margin: 0 auto;
+}
 .sumario ol ol {
   border-left: 0;
   margin: 0 0 0.3rem;
@@ -1274,4 +1317,172 @@ input[type="range"]::-moz-range-thumb {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* Lista de dicas com marca de verificação */
+.dicas {
+  list-style: none;
+  padding-left: 0;
+}
+.dicas li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+.dicas li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--integrais);
+  font-weight: 700;
+}
+
+/* Quadros coloridos: cada quadro da imagem do tio vira um card com cor própria.
+   Dentro do card, --cor-bloco passa a ser a cor do quadro (títulos, réguas). */
+.quadro {
+  --cor-bloco: var(--q);
+  --cor-bloco-claro: rgba(255, 255, 255, 0.65);
+  background: var(--q-claro);
+  border: 1px solid var(--q-borda);
+  border-top: 4px solid var(--q);
+  border-radius: 14px;
+  padding: 0.25rem 1.4rem 1.1rem;
+  margin: 1.75rem 0;
+}
+.quadro > .subtitulo-tipo {
+  color: var(--q);
+  margin-top: 1.1rem;
+}
+.quadro > :last-child {
+  margin-bottom: 0;
+}
+.quadro .regras td {
+  border-bottom-color: var(--q-borda);
+}
+.quadro .regras thead th {
+  border-bottom-color: var(--q);
+}
+.quadro-rosa    { --q: #b8255f; --q-claro: #fdeef4; --q-borda: #f3c6d8; }
+.quadro-azul    { --q: #2457d6; --q-claro: #eaf0fd; --q-borda: #c6d5f7; }
+.quadro-verde   { --q: #12805c; --q-claro: #e6f5ee; --q-borda: #bfe3d2; }
+.quadro-amarelo { --q: #8a5d00; --q-claro: #fdf6dc; --q-borda: #eedb9c; }
+.quadro-laranja { --q: #b34d00; --q-claro: #fef0e4; --q-borda: #f4cdac; }
+.quadro-lilas   { --q: #6b3fc4; --q-claro: #f1ecfc; --q-borda: #d6c8f4; }
+.quadro-ciano   { --q: #0a7282; --q-claro: #e4f5f7; --q-borda: #b5e0e6; }
+.quadro-anil    { --q: #3443b0; --q-claro: #eceefc; --q-borda: #c9cdf3; }
+
+@media (max-width: 640px) {
+  .quadro {
+    padding: 0.1rem 0.9rem 0.9rem;
+  }
+}
+
+/* Limites: cada seção h2 tem um quadro colorido. */
+.quadro > h2 {
+  color: var(--q);
+  margin-top: 0.9rem;
+}
+.conteudo section > .quadro:first-child {
+  margin-top: 0;
+}
+.conteudo section:has(> .quadro) {
+  margin-bottom: 1.75rem;
+}
+
+/* Gráficos estáticos de limites (laterais e tipos de descontinuidade) */
+.grafico-limite {
+  margin: 1rem 0 0.5rem;
+}
+.grafico-limite svg {
+  display: block;
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+}
+.grafico-limite figcaption {
+  font-size: 0.95rem;
+  color: var(--grafite);
+  margin-top: 0.35rem;
+}
+.grafico-limite .lg-eixo,
+.grafico-limite .lg-marca {
+  fill: none;
+  stroke: var(--tinta);
+  stroke-width: 1.25;
+}
+.grafico-limite .lg-seta {
+  fill: var(--tinta);
+}
+.grafico-limite .lg-guia {
+  stroke: var(--grafite);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.grafico-limite .lg-curva {
+  fill: none;
+  stroke: var(--cor-bloco);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.grafico-limite .lg-fina {
+  stroke-width: 1.25;
+}
+.grafico-limite .lg-aberto {
+  fill: var(--superficie);
+  stroke: var(--cor-bloco);
+  stroke-width: 2;
+}
+.grafico-limite .lg-fechado {
+  fill: var(--cor-bloco);
+}
+.grafico-limite .lg-texto {
+  font-family: var(--fonte-titulo);
+  font-size: 13px;
+  fill: var(--grafite);
+}
+.grafico-limite .lg-destaque {
+  fill: var(--cor-bloco);
+  font-weight: 600;
+}
+.tipos-descontinuidade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem 1.5rem;
+  padding-left: 0;
+  list-style: none;
+}
+.tipos-descontinuidade .grafico-limite {
+  margin: 0;
+}
+.tipos-descontinuidade .grafico-limite svg {
+  max-width: 220px;
+}
+.tipos-descontinuidade p {
+  margin: 0.3rem 0 0;
+}
+
+/* Derivadas: reta tangente no gráfico estático do quadro 1 */
+.grafico-limite .lg-tangente {
+  stroke: var(--tinta);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+}
+
+/* Derivadas: lista de erros comuns, com ✗ no lugar do ✓ */
+.dicas.erros li::before {
+  content: "✗";
+  color: #b8255f;
+}
+
+/* Derivadas: tabela resumo em duas colunas */
+.colunas-resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0 1.5rem;
+}
+
+/* Demo dentro de bloco "Na computação" (fundo escuro): texto da legenda volta à cor normal */
+.computacao .explorar,
+.computacao .explorar .katex {
+  color: var(--tinta);
 }
