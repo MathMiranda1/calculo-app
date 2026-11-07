@@ -97,6 +97,31 @@ function mostrarProgressoInicio() {
   });
 }
 
+// ---------- Abas: um painel visível por vez, escolhido pelo #endereço ----------
+
+function ativarAbas() {
+  const nav = document.querySelector(".abas");
+  if (!nav) return;
+  const links = [...nav.querySelectorAll("a")];
+  const paineis = links.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if (!paineis.length) return;
+
+  function mostrar(id, rolar) {
+    const alvo = paineis.find((p) => p.id === id);
+    if (!alvo) return false;
+    paineis.forEach((p) => { p.hidden = p !== alvo; });
+    links.forEach((a) => {
+      if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+    if (rolar) nav.scrollIntoView({ block: "start" });
+    return true;
+  }
+
+  if (!mostrar(decodeURIComponent(location.hash.slice(1)), true)) mostrar(paineis[0].id, false);
+  window.addEventListener("hashchange", () => mostrar(decodeURIComponent(location.hash.slice(1)), true));
+}
+
 // ---------- Sumário lateral: destaca a seção visível ----------
 
 function ativarSumario() {
@@ -212,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarMat(document.body);
   document.querySelectorAll("[data-exercicios]").forEach(montarExercicios);
   mostrarProgressoInicio();
+  ativarAbas();
   ativarSumario();
   const quiz = document.querySelector("#quiz");
   if (quiz) iniciarQuiz(quiz);

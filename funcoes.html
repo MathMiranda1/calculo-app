@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Funções reais e modelagem | Tangente</title>
-  <meta name="description" content="Bloco 1: conceito de função, domínio, imagem, funções elementares e modelagem de problemas de computação.">
+  <meta name="description" content="Bloco 1: conceito de função, domínio, imagem, cada tipo de função (constante, afim, linear, quadrática, modular, exponencial, logarítmica e trigonométricas) e modelagem de problemas.">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,7 @@
   <script defer src="js/graficos.js"></script>
   <script defer src="js/questoes.js"></script>
   <script defer src="js/demos.js"></script>
+  <script defer src="js/geradores.js"></script>
   <script defer src="js/app.js"></script>
 </head>
 <body class="bloco-funcoes">
@@ -42,10 +43,18 @@
       <h2>Nesta página</h2>
       <ol>
         <li><a href="#conceito">Conceito de função</a></li>
-        <li><a href="#elementares">Funções elementares</a></li>
-        <li><a href="#primeiro-segundo">1º e 2º graus</a></li>
-        <li><a href="#exp-log">Exponencial e logaritmo</a></li>
-        <li><a href="#trigonometricas">Trigonométricas</a></li>
+        <li><a href="#tipos">Tipos de função</a>
+          <ol>
+            <li><a href="#constante">Constante</a></li>
+            <li><a href="#afim">Afim (1º grau)</a></li>
+            <li><a href="#linear">Linear</a></li>
+            <li><a href="#quadratica">Quadrática (2º grau)</a></li>
+            <li><a href="#modular">Modular</a></li>
+            <li><a href="#exponencial">Exponencial</a></li>
+            <li><a href="#logaritmica">Logarítmica</a></li>
+            <li><a href="#trigonometrica">Trigonométricas</a></li>
+          </ol>
+        </li>
         <li><a href="#modelagem">Modelagem</a></li>
         <li><a href="#exercicios">Exercícios</a></li>
       </ol>
@@ -93,85 +102,434 @@
 
         <h3>Construção de gráficos</h3>
         <p>O gráfico de \(f\) é o conjunto de pontos \((x, f(x))\) no plano. Para esboçar à mão: monte uma tabela com alguns valores de \(x\), calcule \(f(x)\), marque os pontos e ligue respeitando o domínio. O <strong>teste da reta vertical</strong> confirma se uma curva é função: nenhuma reta vertical pode cortá-la em mais de um ponto.</p>
+
+        <h3>Funções de 1º e 2º grau</h3>
+        <p>Duas famílias aparecem o tempo todo e servem de primeiro exemplo:</p>
+        <ul>
+          <li><strong>1º grau</strong>: \(f(x) = 2x + 1\). O maior expoente de \(x\) é 1, e o gráfico é uma reta. Para \(x = 3\), \(f(3) = 7\).</li>
+          <li><strong>2º grau</strong>: \(g(x) = x^2 - 4\). O maior expoente de \(x\) é 2, e o gráfico é uma parábola. Para \(x = 3\), \(g(3) = 5\).</li>
+        </ul>
+        <p>Elas e os demais tipos são estudados um de cada vez na próxima seção.</p>
       </section>
 
-      <section id="elementares">
-        <h2>Funções elementares</h2>
-        <p>Quase todo modelo que você vai encontrar é construído a partir de cinco famílias. Escolha uma família abaixo e mexa nos parâmetros para ver como cada um muda o gráfico.</p>
+      <section id="tipos">
+        <h2>Tipos de função</h2>
+        <p>Cada tipo de função tem a sua aba. Estude um de cada vez: conceito, domínio e imagem, gráfico, propriedades, um exemplo resolvido e um exercício com números novos sempre que você quiser.</p>
 
-        <figure class="explorar" data-demo="familias">
-          <div class="area-grafico"></div>
-          <figcaption>Na exponencial, coloque a base <strong>b</strong> abaixo de 1 e veja a curva passar a decrescer. Na trigonométrica, aumente <strong>b</strong> e repare o período encolher.</figcaption>
-        </figure>
+        <nav class="abas" aria-label="Tipos de função">
+          <a href="#constante">Constante</a>
+          <a href="#afim">Afim (1º grau)</a>
+          <a href="#linear">Linear</a>
+          <a href="#quadratica">Quadrática (2º grau)</a>
+          <a href="#modular">Modular</a>
+          <a href="#exponencial">Exponencial</a>
+          <a href="#logaritmica">Logarítmica</a>
+          <a href="#trigonometrica">Trigonométricas</a>
+        </nav>
 
-        <div class="tabela-rolagem">
-          <table class="regras">
-            <thead>
-              <tr><th scope="col">Família</th><th scope="col">Forma geral</th><th scope="col">Onde aparece na computação</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>1º grau (afim)</td><td>\(f(x) = ax + b\)</td><td>Custo de nuvem por hora, tempo de laço simples</td></tr>
-              <tr><td>2º grau (quadrática)</td><td>\(f(x) = ax^2 + bx + c\)</td><td>Laços aninhados, trajetória de projéteis em jogos</td></tr>
-              <tr><td>Exponencial</td><td>\(f(x) = a \cdot b^x\)</td><td>Crescimento de dados, força bruta em senhas</td></tr>
-              <tr><td>Logarítmica</td><td>\(f(x) = \log_b x\)</td><td>Busca binária, altura de árvores balanceadas</td></tr>
-              <tr><td>Trigonométrica</td><td>\(f(x) = a \operatorname{sen}(bx)\)</td><td>Áudio, animação, rotação em computação gráfica</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+        <!-- ===================== Constante ===================== -->
+        <section class="painel-tipo" id="constante" aria-labelledby="t-constante">
+          <h3 id="t-constante" class="titulo-tipo">Função constante <span class="forma">\(f(x) = b\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>A função constante associa a todo elemento do domínio o mesmo valor real \(b\). A saída é sempre a mesma, qualquer que seja \(x\).</p>
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <ul>
+            <li>Domínio: \(\mathbb{R}\) (ou um conjunto \(A\) informado).</li>
+            <li>Imagem: \(\{b\}\), um único valor.</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="constante">
+            <div class="area-grafico"></div>
+            <figcaption>Mova <strong>b</strong>. O gráfico é sempre uma reta horizontal que corta o eixo \(y\) em \(b\).</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>Não é crescente nem decrescente: é constante.</li>
+            <li>Taxa de variação igual a 0 (a reta tem inclinação nula).</li>
+            <li>Muito usada em modelagens simples, como uma taxa fixa mensal.</li>
+          </ul>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: \(f(x) = 4\). Calcule \(f(-2)\), \(f(0)\) e \(f(100)\).</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>Na função constante, a saída não depende de \(x\).</li>
+                <li>Logo \(f(-2) = f(0) = f(100) = 4\).</li>
+                <li>Imagem: \(\{4\}\).</li>
+              </ol>
+            </details>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="constante"></div>
+          <a class="proximo-tipo" href="#afim">Próximo: função afim (1º grau)</a>
+        </section>
 
-      <section id="primeiro-segundo">
-        <h2>Funções de 1º e 2º graus</h2>
-        <h3>1º grau: \(f(x) = ax + b\)</h3>
-        <p>O gráfico é uma reta. O coeficiente \(a\) é a <strong>taxa de variação</strong>: quanto \(f\) muda quando \(x\) aumenta 1. Se \(a \gt 0\) a reta sobe; se \(a \lt 0\), desce. O coeficiente \(b\) é onde a reta corta o eixo \(y\), e a raiz é \(x = -\frac{b}{a}\).</p>
+        <!-- ===================== Afim ===================== -->
+        <section class="painel-tipo" id="afim" aria-labelledby="t-afim">
+          <h3 id="t-afim" class="titulo-tipo">Função afim (1º grau) <span class="forma">\(f(x) = ax + b\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>A função afim associa a cada \(x\) o valor \(ax + b\), com \(a \ne 0\). É uma expressão do 1º grau, e o gráfico é uma reta.</p>
+            <ul>
+              <li>\(a\) é o <strong>coeficiente angular</strong>: quanto \(f\) muda quando \(x\) aumenta 1. Ele dá a inclinação da reta.</li>
+              <li>\(b\) é o <strong>coeficiente linear</strong>: o ponto onde a reta corta o eixo \(y\).</li>
+            </ul>
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <ul>
+            <li>Domínio: \(\mathbb{R}\).</li>
+            <li>Imagem: \(\mathbb{R}\).</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="afim">
+            <div class="area-grafico"></div>
+            <figcaption>Coloque <strong>a</strong> negativo e a reta passa a descer. O ponto rosa é o zero da função, onde a reta corta o eixo \(x\).</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>Se \(a \gt 0\), a função é crescente. Se \(a \lt 0\), é decrescente.</li>
+            <li>Zero da função: \(ax + b = 0 \Rightarrow x = -\dfrac{b}{a}\).</li>
+            <li>Inclinação a partir de dois pontos: \(a = \dfrac{y_2 - y_1}{x_2 - x_1}\).</li>
+          </ul>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: analise \(f(x) = -2x + 6\)</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>\(a = -2 \lt 0\): a função é decrescente.</li>
+                <li>\(b = 6\): a reta corta o eixo \(y\) em \((0, 6)\).</li>
+                <li>Zero: \(-2x + 6 = 0 \Rightarrow x = 3\). A reta corta o eixo \(x\) em \((3, 0)\).</li>
+              </ol>
+            </details>
+          </div>
+          <div class="computacao">
+            <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
+            <p>Um servidor que cobra R$ 200 fixos por mês mais R$ 0,05 por requisição tem custo \(C(n) = 0{,}05n + 200\). O fixo é o \(b\) e o preço por requisição é o \(a\).</p>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="afim"></div>
+          <a class="proximo-tipo" href="#linear">Próximo: função linear</a>
+        </section>
 
-        <h3>2º grau: \(f(x) = ax^2 + bx + c\)</h3>
-        <p>O gráfico é uma parábola, com concavidade para cima se \(a \gt 0\) e para baixo se \(a \lt 0\). As raízes vêm da fórmula de Bhaskara, e o vértice marca o ponto de máximo ou de mínimo:</p>
-        \[ x = \frac{-b \pm \sqrt{\Delta}}{2a}, \quad \Delta = b^2 - 4ac \qquad\qquad V = \left(-\frac{b}{2a},\ -\frac{\Delta}{4a}\right) \]
+        <!-- ===================== Linear ===================== -->
+        <section class="painel-tipo" id="linear" aria-labelledby="t-linear">
+          <h3 id="t-linear" class="titulo-tipo">Função linear <span class="forma">\(f(x) = ax\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>É um caso particular da função afim, em que \(b = 0\). Associa a cada \(x\) o valor \(ax\). O gráfico é uma reta que passa pela origem \((0, 0)\).</p>
+            <p>Também é chamada de <strong>função proporcional direta</strong>: dobrar a entrada dobra a saída.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <ul>
+            <li>Domínio: \(\mathbb{R}\).</li>
+            <li>Imagem: \(\mathbb{R}\) (com \(a \ne 0\)).</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="linear">
+            <div class="area-grafico"></div>
+            <figcaption>Qualquer que seja <strong>a</strong>, a reta passa por \((0, 0)\). O ponto rosa mostra que \(f(1) = a\).</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>Passa pelo ponto \((0, 0)\).</li>
+            <li>Se \(a \gt 0\), é crescente. Se \(a \lt 0\), é decrescente.</li>
+            <li>É uma função ímpar: \(f(-x) = -f(x)\).</li>
+            <li>Muito usada em proporcionalidade, escalas e conversão de unidades.</li>
+          </ul>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: um arquivo de 3 MB leva 6 segundos para baixar. Quanto tempo leva um de 10 MB?</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>O tempo é proporcional ao tamanho: \(t(x) = ax\).</li>
+                <li>\(t(3) = 6 \Rightarrow 3a = 6 \Rightarrow a = 2\) segundos por MB.</li>
+                <li>\(t(10) = 2 \cdot 10 = 20\) segundos.</li>
+              </ol>
+            </details>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="linear"></div>
+          <a class="proximo-tipo" href="#quadratica">Próximo: função quadrática (2º grau)</a>
+        </section>
 
-        <div class="exemplo">
-          <h4>Exemplo resolvido: analise \(f(x) = -x^2 + 4x + 5\)</h4>
-          <details>
-            <summary>Ver solução</summary>
-            <ol>
-              <li>\(a = -1 \lt 0\): concavidade para baixo, então o vértice é um máximo.</li>
-              <li>\(\Delta = 16 + 20 = 36\). Raízes: \(x = \frac{-4 \pm 6}{-2}\), ou seja, \(x = -1\) e \(x = 5\).</li>
-              <li>Vértice: \(x_v = -\frac{4}{-2} = 2\) e \(f(2) = -4 + 8 + 5 = 9\). Ponto máximo \((2, 9)\).</li>
-              <li>Imagem: \((-\infty, 9]\).</li>
-            </ol>
-          </details>
-        </div>
-      </section>
+        <!-- ===================== Quadrática ===================== -->
+        <section class="painel-tipo" id="quadratica" aria-labelledby="t-quadratica">
+          <h3 id="t-quadratica" class="titulo-tipo">Função quadrática (2º grau) <span class="forma">\(f(x) = ax^2 + bx + c\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>Associa a cada \(x\) um único valor dado por uma expressão do 2º grau, com \(a \ne 0\). O gráfico é uma curva chamada <strong>parábola</strong>.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <ul>
+            <li>Domínio: \(\mathbb{R}\).</li>
+            <li>Imagem: depende do sinal de \(a\). Se \(a \gt 0\), \([y_v, +\infty)\). Se \(a \lt 0\), \((-\infty, y_v]\).</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="quadratica">
+            <div class="area-grafico"></div>
+            <figcaption>Troque o sinal de <strong>a</strong> e a concavidade vira. Diminua <strong>c</strong> até \(\Delta\) ficar negativo: as raízes somem.</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>Concavidade: \(a \gt 0\) para cima (o vértice é mínimo); \(a \lt 0\) para baixo (o vértice é máximo).</li>
+            <li>Raízes (zeros): resolva \(ax^2 + bx + c = 0\). Com \(\Delta = b^2 - 4ac\): \(x = \dfrac{-b \pm \sqrt{\Delta}}{2a}\).</li>
+            <li>\(\Delta \gt 0\): duas raízes. \(\Delta = 0\): uma raiz dupla. \(\Delta \lt 0\): nenhuma raiz real.</li>
+            <li>Vértice: \(x_v = -\dfrac{b}{2a}\). Eixo de simetria: a reta \(x = x_v\).</li>
+            <li>Corta o eixo \(y\) em \((0, c)\).</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Vértice sem Bhaskara</h4>
+          <p>Para achar \(y_v\) não é preciso calcular as raízes. Escolha o caminho mais curto:</p>
+          <ol>
+            <li><strong>Usando a própria função:</strong> calcule \(x_v = -\frac{b}{2a}\) e substitua: \(y_v = f(x_v)\).</li>
+            <li><strong>Fórmula direta:</strong> \(y_v = -\dfrac{\Delta}{4a}\).</li>
+            <li><strong>Pelas raízes:</strong> se você já conhece \(x_1\) e \(x_2\), então \(x_v = \frac{x_1 + x_2}{2}\).</li>
+            <li><strong>Completando o quadrado:</strong> escreva \(f(x) = a(x - h)^2 + k\). O vértice é \((h, k)\).</li>
+          </ol>
+          <p>Raízes também saem sem Bhaskara em casos simples: por fatoração, \(ax^2 + bx + c = a(x - x_1)(x - x_2)\); ou em equações incompletas, como \(ax^2 + bx = 0 \Rightarrow x(ax + b) = 0\).</p>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: analise \(f(x) = -x^2 + 4x + 5\)</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>\(a = -1 \lt 0\): concavidade para baixo, então o vértice é um máximo.</li>
+                <li>\(\Delta = 16 + 20 = 36\). Raízes: \(x = \frac{-4 \pm 6}{-2}\), ou seja, \(x = -1\) e \(x = 5\).</li>
+                <li>Vértice: \(x_v = -\frac{4}{-2} = 2\) e \(f(2) = -4 + 8 + 5 = 9\). Ponto máximo \((2, 9)\).</li>
+                <li>Imagem: \((-\infty, 9]\).</li>
+              </ol>
+            </details>
+          </div>
+          <div class="computacao">
+            <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
+            <p>Dois laços aninhados sobre uma lista de tamanho \(n\) executam cerca de \(n^2\) operações. A trajetória de um projétil num jogo também é uma parábola.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="quadratica"></div>
+          <a class="proximo-tipo" href="#modular">Próximo: função modular</a>
+        </section>
 
-      <section id="exp-log">
-        <h2>Exponencial e logaritmo</h2>
-        <p>Na exponencial \(f(x) = b^x\), com \(b \gt 0\) e \(b \ne 1\), a variável está no expoente. Cada vez que \(x\) aumenta 1, o valor é multiplicado por \(b\). Por isso ela cresce muito rápido quando \(b \gt 1\). A base mais importante do Cálculo é \(e \approx 2{,}71828\).</p>
-        <p>O logaritmo é a operação inversa: \(\log_b y = x\) significa \(b^x = y\). Ele responde à pergunta "a que potência devo elevar \(b\) para obter \(y\)?". Seu domínio são os reais positivos, e ele cresce muito devagar.</p>
+        <!-- ===================== Modular ===================== -->
+        <section class="painel-tipo" id="modular" aria-labelledby="t-modular">
+          <h3 id="t-modular" class="titulo-tipo">Função modular <span class="forma">\(f(x) = |x|\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>Associa a cada \(x\) o seu valor absoluto. Transforma qualquer entrada negativa em positiva, e o resultado é sempre maior ou igual a zero.</p>
+            \[ |x| = \begin{cases} x, & \text{se } x \ge 0 \\ -x, & \text{se } x \lt 0 \end{cases} \]
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <ul>
+            <li>Domínio: \(\mathbb{R}\).</li>
+            <li>Imagem: \([0, +\infty)\).</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="modular">
+            <div class="area-grafico"></div>
+            <figcaption>O gráfico tem forma de "V". Mova <strong>h</strong> e <strong>k</strong> para ver \(f(x) = |x - h| + k\) deslocar a ponta.</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>\(f(x) \ge 0\) para todo \(x \in \mathbb{R}\).</li>
+            <li>Função par: \(f(-x) = f(x)\). O gráfico é simétrico em relação ao eixo \(y\).</li>
+            <li>Decrescente em \((-\infty, 0]\) e crescente em \([0, +\infty)\).</li>
+            <li>Tem um "bico" em \(x = 0\). Mais adiante, no bloco de derivadas, isso significa que ela não é derivável nesse ponto.</li>
+            <li>Equação modular: \(|x| = d\), com \(d \gt 0\), tem duas soluções: \(x = d\) ou \(x = -d\).</li>
+          </ul>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: resolva \(|x - 3| = 5\)</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>O que está dentro do módulo vale \(5\) ou \(-5\).</li>
+                <li>\(x - 3 = 5 \Rightarrow x = 8\).</li>
+                <li>\(x - 3 = -5 \Rightarrow x = -2\).</li>
+                <li>Interpretação: os pontos que estão a 5 unidades de distância do 3.</li>
+              </ol>
+            </details>
+          </div>
+          <div class="computacao">
+            <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
+            <p>O erro de uma previsão é \(|\text{valor real} - \text{valor previsto}|\). O módulo garante que errar para mais ou para menos conta da mesma forma.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="modular"></div>
+          <a class="proximo-tipo" href="#exponencial">Próximo: função exponencial</a>
+        </section>
 
-        <div class="tabela-rolagem">
-          <table class="regras">
-            <thead><tr><th scope="col">Propriedade</th><th scope="col">Exponencial</th><th scope="col">Logaritmo</th></tr></thead>
-            <tbody>
-              <tr><td>Produto</td><td>\(b^m \cdot b^n = b^{m+n}\)</td><td>\(\log(xy) = \log x + \log y\)</td></tr>
-              <tr><td>Quociente</td><td>\(b^m / b^n = b^{m-n}\)</td><td>\(\log(x/y) = \log x - \log y\)</td></tr>
-              <tr><td>Potência</td><td>\((b^m)^n = b^{mn}\)</td><td>\(\log x^n = n \log x\)</td></tr>
-              <tr><td>Mudança de base</td><td>\(b^x = e^{x \ln b}\)</td><td>\(\log_b x = \frac{\ln x}{\ln b}\)</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <!-- ===================== Exponencial ===================== -->
+        <section class="painel-tipo" id="exponencial" aria-labelledby="t-exponencial">
+          <h3 id="t-exponencial" class="titulo-tipo">Função exponencial <span class="forma">\(f(x) = a^x\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>Função definida por \(f(x) = a^x\), com \(a \gt 0\) e \(a \ne 1\). A variável está no <strong>expoente</strong>. Cada vez que \(x\) aumenta 1, o valor é multiplicado por \(a\).</p>
+            <p>Modela crescimento ou decaimento: juros, população, radioatividade. A base mais importante do Cálculo é \(e \approx 2{,}718\).</p>
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <ul>
+            <li>Domínio: \(\mathbb{R}\).</li>
+            <li>Imagem: \((0, +\infty)\). A função é sempre positiva e não tem raízes.</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="exponencial">
+            <div class="area-grafico"></div>
+            <figcaption>Coloque a base <strong>a</strong> abaixo de 1 e a curva passa a decrescer. Em qualquer caso ela passa por \((0, 1)\).</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>\(a \gt 1\): crescimento exponencial. \(0 \lt a \lt 1\): decaimento exponencial.</li>
+            <li>Passa pelo ponto \((0, 1)\), pois \(a^0 = 1\).</li>
+            <li>É contínua e injetiva. Nunca corta o eixo \(x\).</li>
+          </ul>
+          <div class="tabela-rolagem">
+            <table class="regras">
+              <thead><tr><th scope="col">Propriedade</th><th scope="col">Regra</th></tr></thead>
+              <tbody>
+                <tr><td>Produto</td><td>\(a^m \cdot a^n = a^{m+n}\)</td></tr>
+                <tr><td>Quociente</td><td>\(\dfrac{a^m}{a^n} = a^{m-n}\)</td></tr>
+                <tr><td>Potência de potência</td><td>\((a^m)^n = a^{mn}\)</td></tr>
+                <tr><td>Expoente negativo</td><td>\(a^{-n} = \dfrac{1}{a^n}\)</td></tr>
+                <tr><td>Expoente zero e um</td><td>\(a^0 = 1\), \(a^1 = a\)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: R$ 1.000 aplicados a 10% ao mês, juros compostos. Quanto há depois de 3 meses?</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>Juros compostos: \(M(t) = C(1 + i)^t\), com \(C = 1000\) e \(i = 0{,}1\).</li>
+                <li>\(M(3) = 1000 \cdot 1{,}1^3 = 1000 \cdot 1{,}331\).</li>
+                <li>\(M(3) = 1331\) reais.</li>
+              </ol>
+            </details>
+          </div>
+          <div class="computacao">
+            <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
+            <p>Uma senha de 8 caracteres com 62 símbolos possíveis tem \(62^8 \approx 2{,}2 \times 10^{14}\) combinações. Cada caractere a mais multiplica esse número por 62. Esse crescimento exponencial é o que torna a força bruta inviável.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="exponencial"></div>
+          <a class="proximo-tipo" href="#logaritmica">Próximo: função logarítmica</a>
+        </section>
 
-        <div class="computacao">
-          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
-          <p>Uma senha de 8 caracteres com 62 símbolos possíveis tem \(62^8 \approx 2{,}2 \times 10^{14}\) combinações. Cada caractere a mais multiplica esse número por 62. Esse crescimento exponencial é o que torna a força bruta inviável.</p>
-          <p>O logaritmo aparece no sentido oposto. A busca binária corta a lista ao meio a cada passo, então encontra um item entre 1 milhão em cerca de \(\log_2 10^6 \approx 20\) comparações.</p>
-        </div>
-      </section>
+        <!-- ===================== Logarítmica ===================== -->
+        <section class="painel-tipo" id="logaritmica" aria-labelledby="t-logaritmica">
+          <h3 id="t-logaritmica" class="titulo-tipo">Função logarítmica <span class="forma">\(f(x) = \log_a x\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>Função definida por \(f(x) = \log_a x\), com \(a \gt 0\), \(a \ne 1\) e \(x \gt 0\). É a <strong>inversa da exponencial</strong>:</p>
+            \[ \log_a x = y \iff a^y = x \]
+            <p>O logaritmo responde à pergunta: "qual é o expoente que devo usar em \(a\) para obter \(x\)?".</p>
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <ul>
+            <li>Domínio: \((0, +\infty)\). Só existe logaritmo de número positivo.</li>
+            <li>Imagem: \(\mathbb{R}\).</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="logaritmica">
+            <div class="area-grafico"></div>
+            <figcaption>A curva cinza é \(a^x\). As duas são espelhos uma da outra pela reta tracejada \(y = x\), porque uma é a inversa da outra.</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>\(a \gt 1\): crescente. \(0 \lt a \lt 1\): decrescente.</li>
+            <li>Passa pelo ponto \((1, 0)\), pois \(\log_a 1 = 0\). Não corta o eixo \(y\).</li>
+            <li>Relação com a exponencial: \(\log_a(a^x) = x\) e \(a^{\log_a x} = x\).</li>
+          </ul>
+          <div class="tabela-rolagem">
+            <table class="regras">
+              <thead><tr><th scope="col">Propriedade</th><th scope="col">Regra</th></tr></thead>
+              <tbody>
+                <tr><td>Valores básicos</td><td>\(\log_a 1 = 0\), \(\log_a a = 1\)</td></tr>
+                <tr><td>Produto</td><td>\(\log_a(xy) = \log_a x + \log_a y\)</td></tr>
+                <tr><td>Quociente</td><td>\(\log_a\left(\dfrac{x}{y}\right) = \log_a x - \log_a y\)</td></tr>
+                <tr><td>Potência</td><td>\(\log_a(x^n) = n \log_a x\)</td></tr>
+                <tr><td>Mudança de base</td><td>\(\log_a x = \dfrac{\log_b x}{\log_b a}\)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: calcule \(\log_2 8 + \log_2 4\)</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>\(\log_2 8 = 3\), pois \(2^3 = 8\).</li>
+                <li>\(\log_2 4 = 2\), pois \(2^2 = 4\).</li>
+                <li>Soma: \(3 + 2 = 5\). Pela propriedade do produto, também \(\log_2 32 = 5\).</li>
+              </ol>
+            </details>
+          </div>
+          <div class="computacao">
+            <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
+            <p>A busca binária corta a lista ao meio a cada passo, então encontra um item entre 1 milhão em cerca de \(\log_2 10^6 \approx 20\) comparações.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="logaritmica"></div>
+          <a class="proximo-tipo" href="#trigonometrica">Próximo: funções trigonométricas</a>
+        </section>
 
-      <section id="trigonometricas">
-        <h2>Funções trigonométricas</h2>
-        <p>Seno e cosseno descrevem fenômenos que se repetem. No círculo de raio 1, um ângulo \(x\) (em radianos) determina o ponto \((\cos x, \operatorname{sen} x)\). As duas funções têm imagem \([-1, 1]\) e período \(2\pi\).</p>
-        <p>Em \(f(x) = a \operatorname{sen}(bx)\), \(|a|\) é a <strong>amplitude</strong> e \(\frac{2\pi}{b}\) é o <strong>período</strong>. A tangente, \(\tan x = \frac{\operatorname{sen} x}{\cos x}\), não está definida onde \(\cos x = 0\).</p>
-        <p>Identidade fundamental: \(\operatorname{sen}^2 x + \cos^2 x = 1\).</p>
+        <!-- ===================== Trigonométricas ===================== -->
+        <section class="painel-tipo" id="trigonometrica" aria-labelledby="t-trigonometrica">
+          <h3 id="t-trigonometrica" class="titulo-tipo">Funções trigonométricas <span class="forma">\(\operatorname{sen} x,\ \cos x,\ \operatorname{tg} x\)</span></h3>
+          <div class="definicao">
+            <h4>Conceito</h4>
+            <p>Relacionam ângulos às razões entre os lados de um triângulo retângulo e se estendem a todos os reais pela circunferência trigonométrica (raio 1). Um ângulo \(x\) determina o ponto \((\cos x, \operatorname{sen} x)\): o cosseno é a abscissa e o seno é a ordenada.</p>
+            <p>São <strong>periódicas</strong>: o gráfico se repete. Ângulos podem estar em graus ou radianos: \(180^\circ = \pi\) rad.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Domínio e imagem</h4>
+          <div class="tabela-rolagem">
+            <table class="regras">
+              <thead><tr><th scope="col">Função</th><th scope="col">Domínio</th><th scope="col">Imagem</th><th scope="col">Período</th><th scope="col">Paridade</th></tr></thead>
+              <tbody>
+                <tr><td>\(\operatorname{sen} x\)</td><td>\(\mathbb{R}\)</td><td>\([-1, 1]\)</td><td>\(2\pi\)</td><td>ímpar</td></tr>
+                <tr><td>\(\cos x\)</td><td>\(\mathbb{R}\)</td><td>\([-1, 1]\)</td><td>\(2\pi\)</td><td>par</td></tr>
+                <tr><td>\(\operatorname{tg} x\)</td><td>\(x \ne \frac{\pi}{2} + k\pi\)</td><td>\(\mathbb{R}\)</td><td>\(\pi\)</td><td>ímpar</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h4 class="subtitulo-tipo">Gráfico</h4>
+          <figure class="explorar" data-demo="trigonometrica">
+            <div class="area-grafico"></div>
+            <figcaption>Em \(a \cdot \operatorname{sen}(bx)\), <strong>a</strong> estica a onda na vertical (amplitude) e <strong>b</strong> encolhe o período. Na tangente, veja as assíntotas verticais.</figcaption>
+          </figure>
+          <h4 class="subtitulo-tipo">Propriedades</h4>
+          <ul>
+            <li>Em \(a \operatorname{sen}(bx)\) ou \(a \cos(bx)\): amplitude \(|a|\) e período \(\dfrac{2\pi}{b}\).</li>
+            <li>Relação fundamental: \(\operatorname{sen}^2 x + \cos^2 x = 1\).</li>
+            <li>\(\operatorname{tg} x = \dfrac{\operatorname{sen} x}{\cos x}\), que não existe onde \(\cos x = 0\).</li>
+          </ul>
+          <h4 class="subtitulo-tipo">Valores notáveis</h4>
+          <div class="tabela-rolagem">
+            <table class="regras notaveis">
+              <thead><tr><th scope="col">\(\theta\)</th><th scope="col">\(0^\circ\)</th><th scope="col">\(30^\circ\)</th><th scope="col">\(45^\circ\)</th><th scope="col">\(60^\circ\)</th><th scope="col">\(90^\circ\)</th><th scope="col">\(180^\circ\)</th><th scope="col">\(270^\circ\)</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">rad</th><td>\(0\)</td><td>\(\frac{\pi}{6}\)</td><td>\(\frac{\pi}{4}\)</td><td>\(\frac{\pi}{3}\)</td><td>\(\frac{\pi}{2}\)</td><td>\(\pi\)</td><td>\(\frac{3\pi}{2}\)</td></tr>
+                <tr><th scope="row">\(\operatorname{sen}\)</th><td>\(0\)</td><td>\(\frac{1}{2}\)</td><td>\(\frac{\sqrt{2}}{2}\)</td><td>\(\frac{\sqrt{3}}{2}\)</td><td>\(1\)</td><td>\(0\)</td><td>\(-1\)</td></tr>
+                <tr><th scope="row">\(\cos\)</th><td>\(1\)</td><td>\(\frac{\sqrt{3}}{2}\)</td><td>\(\frac{\sqrt{2}}{2}\)</td><td>\(\frac{1}{2}\)</td><td>\(0\)</td><td>\(-1\)</td><td>\(0\)</td></tr>
+                <tr><th scope="row">\(\operatorname{tg}\)</th><td>\(0\)</td><td>\(\frac{\sqrt{3}}{3}\)</td><td>\(1\)</td><td>\(\sqrt{3}\)</td><td>não existe</td><td>\(0\)</td><td>não existe</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="exemplo">
+            <h4>Exemplo resolvido: encontre amplitude, período e imagem de \(f(x) = 3\operatorname{sen}(2x)\)</h4>
+            <details>
+              <summary>Ver solução</summary>
+              <ol>
+                <li>Amplitude: \(|a| = 3\).</li>
+                <li>Período: \(\frac{2\pi}{2} = \pi\). A onda se repete duas vezes mais rápido que \(\operatorname{sen} x\).</li>
+                <li>Imagem: \([-3, 3]\).</li>
+              </ol>
+            </details>
+          </div>
+          <div class="computacao">
+            <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Na computação</h4>
+            <p>Um som puro é uma onda \(a \operatorname{sen}(bx)\): \(a\) é o volume e \(b\) define a nota. Seno e cosseno também giram objetos em jogos e computação gráfica.</p>
+          </div>
+          <h4 class="subtitulo-tipo">Pratique</h4>
+          <div data-gerador="trigonometrica"></div>
+          <a class="proximo-tipo" href="#modelagem">Próximo: modelagem de problemas</a>
+        </section>
       </section>
 
       <section id="modelagem">

@@ -59,6 +59,9 @@ function botao(pai, texto, secundario) {
   return b;
 }
 
+// Termo com sinal para textos: 2 -> "+ 2", -3 -> "− 3"
+const sinal = (v, casas = 1) => (v < 0 ? `− ${fmt(-v, casas)}` : `+ ${fmt(v, casas)}`);
+
 function ler(leitura, itens) {
   leitura.innerHTML = itens
     .map(([rot, val, cor]) => `<span class="${cor ? "cor-" + cor : ""}">${rot} <b>${val}</b></span>`)
@@ -96,45 +99,189 @@ const DEMOS = {
     desenhar();
   },
 
-  // Bloco 1: famílias de funções com parâmetros
-  familias(fig) {
-    const { area, ctr, leitura } = painel(fig);
-    const tipos = {
-      linear:      { nome: "1º grau",      f: (x, a, b) => a * x + b,                 txt: (a, b) => `f(x) = ${fmt(a, 1)}x + ${fmt(b, 1)}`, a: [-3, 3, 1], b: [-4, 4, 1], ra: "a (inclinação)", rb: "b (corte no eixo y)" },
-      quadratica:  { nome: "2º grau",      f: (x, a, b) => a * x * x + b,             txt: (a, b) => `f(x) = ${fmt(a, 1)}x² + ${fmt(b, 1)}`, a: [-2, 2, 0.5], b: [-4, 4, -2], ra: "a (abertura)", rb: "c (altura do vértice)" },
-      exponencial: { nome: "Exponencial",  f: (x, a, b) => a * Math.pow(b, x),        txt: (a, b) => `f(x) = ${fmt(a, 1)} · ${fmt(b, 1)}ˣ`, a: [0.2, 3, 1], b: [0.2, 3, 2], ra: "a (valor inicial)", rb: "b (base)" },
-      logaritmica: { nome: "Logarítmica",  f: (x, a, b) => (x > 0 ? a * Math.log(x) + b : NaN), txt: (a, b) => `f(x) = ${fmt(a, 1)} · ln x + ${fmt(b, 1)}`, a: [-3, 3, 1], b: [-3, 3, 0], ra: "a (escala)", rb: "b (deslocamento)" },
-      seno:        { nome: "Trigonométrica", f: (x, a, b) => a * Math.sin(b * x),     txt: (a, b) => `f(x) = ${fmt(a, 1)} · sen(${fmt(b, 1)}x)`, a: [-3, 3, 2], b: [0.25, 4, 1], ra: "a (amplitude)", rb: "b (frequência)" },
-    };
-    const sel = seletor(ctr, { rotulo: "Tipo de função", opcoes: Object.entries(tipos).map(([k, t]) => [k, t.nome]) });
-    const sa = deslizador(ctr, { rotulo: "a", min: -3, max: 3, passo: 0.1, valor: 1, mostrar: (v) => fmt(v, 1) });
-    const sb = deslizador(ctr, { rotulo: "b", min: -4, max: 4, passo: 0.1, valor: 1, mostrar: (v) => fmt(v, 1) });
-    const g = Grafico.criar(area, { x: [-6, 6], y: [-6, 6], altura: 400, rotulo: "Gráfico da família de funções escolhida" });
+  // ---------- Bloco 1: um gráfico para cada tipo de função ----------
 
-    function configurar() {
-      const t = tipos[sel.value];
-      [[sa, t.a, t.ra], [sb, t.b, t.rb]].forEach(([inp, [mn, mx, v], rot]) => {
-        inp.min = mn; inp.max = mx; inp.value = v;
-        inp.closest(".controle").querySelector("label span").textContent = rot;
-        inp.dispatchEvent(new Event("input"));
-      });
-    }
+  constante(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const g = Grafico.criar(area, { x: [-6, 6], y: [-5, 5], altura: 360, rotulo: "Gráfico da função constante f(x) = b" });
+    const sb = deslizador(ctr, { rotulo: "b (valor da saída)", min: -4, max: 4, passo: 0.5, valor: 2, mostrar: (v) => fmt(v, 1) });
     function desenhar() {
-      const t = tipos[sel.value];
-      const a = +sa.value, b = +sb.value;
-      g.limpar().funcao((x) => t.f(x, a, b), { cor: "var(--funcoes)", espessura: 3 });
-      let extra = [];
-      if (sel.value === "quadratica") extra = [["vértice", `(0; ${fmt(b, 1)})`], ["concavidade", a > 0 ? "para cima" : a < 0 ? "para baixo" : "vira reta"]];
-      if (sel.value === "exponencial") extra = [["comportamento", b > 1 ? "crescente" : b < 1 ? "decrescente" : "constante"]];
-      if (sel.value === "logaritmica") extra = [["domínio", "x > 0"]];
-      if (sel.value === "seno") extra = [["período", fmt((2 * Math.PI) / b, 2)]];
-      if (sel.value === "linear") extra = [["raiz", a !== 0 ? `x = ${fmt(-b / a, 2)}` : "não tem (ou infinitas)"]];
-      ler(leitura, [[t.txt(a, b), "", "funcoes"], ...extra]);
+      const b = +sb.value;
+      g.limpar().funcao(() => b, { cor: "var(--funcoes)", espessura: 3 }).ponto(0, b, { cor: "var(--funcoes)" });
+      ler(leitura, [[`f(x) = ${fmt(b, 1)}`, "", "funcoes"], ["imagem", `{${fmt(b, 1)}}`], ["taxa de variação", "0"]]);
     }
-    sel.addEventListener("change", () => { configurar(); desenhar(); });
+    sb.addEventListener("input", desenhar);
+    desenhar();
+  },
+
+  afim(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const g = Grafico.criar(area, { x: [-6, 6], y: [-6, 6], altura: 380, rotulo: "Gráfico da função afim f(x) = ax + b" });
+    const sa = deslizador(ctr, { rotulo: "a (inclinação)", min: -3, max: 3, passo: 0.5, valor: 1, mostrar: (v) => fmt(v, 1) });
+    const sb = deslizador(ctr, { rotulo: "b (corte no eixo y)", min: -4, max: 4, passo: 0.5, valor: 2, mostrar: (v) => fmt(v, 1) });
+    function desenhar() {
+      const a = +sa.value, b = +sb.value;
+      g.limpar().funcao((x) => a * x + b, { cor: "var(--funcoes)", espessura: 3 }).ponto(0, b, { cor: "var(--funcoes)" });
+      if (a !== 0) g.ponto(-b / a, 0, { cor: "var(--derivadas)" });
+      ler(leitura, [
+        [`f(x) = ${fmt(a, 1)}x ${sinal(b)}`, "", "funcoes"],
+        ["comportamento", a > 0 ? "crescente" : a < 0 ? "decrescente" : "constante (a = 0)"],
+        ["zero", a !== 0 ? `x = ${fmt(-b / a, 2)}` : "não tem um único zero", "derivadas"],
+      ]);
+    }
     sa.addEventListener("input", desenhar);
     sb.addEventListener("input", desenhar);
-    configurar();
+    desenhar();
+  },
+
+  linear(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const g = Grafico.criar(area, { x: [-6, 6], y: [-6, 6], altura: 380, rotulo: "Gráfico da função linear f(x) = ax" });
+    const sa = deslizador(ctr, { rotulo: "a (inclinação)", min: -3, max: 3, passo: 0.25, valor: 1.5, mostrar: (v) => fmt(v, 2) });
+    function desenhar() {
+      const a = +sa.value;
+      g.limpar().funcao((x) => a * x, { cor: "var(--funcoes)", espessura: 3 })
+        .ponto(0, 0, { cor: "var(--funcoes)" })
+        .ponto(1, a, { cor: "var(--derivadas)" })
+        .segmento(0, 0, 1, 0, { cor: "var(--grafite, #566173)", espessura: 1.25, tracejado: "3 4" })
+        .segmento(1, 0, 1, a, { cor: "var(--grafite, #566173)", espessura: 1.25, tracejado: "3 4" });
+      ler(leitura, [
+        [`f(x) = ${fmt(a, 2)}x`, "", "funcoes"],
+        ["passa por", "(0, 0)"],
+        ["f(1) =", fmt(a, 2), "derivadas"],
+        ["comportamento", a > 0 ? "crescente" : a < 0 ? "decrescente" : "constante (a = 0)"],
+      ]);
+    }
+    sa.addEventListener("input", desenhar);
+    desenhar();
+  },
+
+  quadratica(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const g = Grafico.criar(area, { x: [-6, 6], y: [-6, 6], altura: 400, rotulo: "Parábola f(x) = ax² + bx + c com vértice e raízes" });
+    const sa = deslizador(ctr, { rotulo: "a", min: -2, max: 2, passo: 0.25, valor: 1, mostrar: (v) => fmt(v, 2) });
+    const sb = deslizador(ctr, { rotulo: "b", min: -4, max: 4, passo: 0.5, valor: -2, mostrar: (v) => fmt(v, 1) });
+    const sc = deslizador(ctr, { rotulo: "c", min: -4, max: 4, passo: 0.5, valor: -3, mostrar: (v) => fmt(v, 1) });
+    function desenhar() {
+      const a = +sa.value, b = +sb.value, c = +sc.value;
+      const f = (x) => a * x * x + b * x + c;
+      g.limpar().funcao(f, { cor: "var(--funcoes)", espessura: 3 });
+      const texto = `f(x) = ${fmt(a, 2)}x² ${sinal(b)}x ${sinal(c)}`;
+      if (a === 0) {
+        ler(leitura, [[texto, "", "funcoes"], ["a = 0", "deixa de ser quadrática: vira reta"]]);
+        return;
+      }
+      const delta = b * b - 4 * a * c;
+      const xv = -b / (2 * a);
+      g.segmento(xv, -6, xv, 6, { cor: "var(--grafite, #566173)", espessura: 1.25, tracejado: "4 5", opacidade: 0.7 })
+        .ponto(xv, f(xv), { cor: "var(--derivadas)", halo: true });
+      let raizes = "não tem raízes reais (Δ < 0)";
+      if (delta >= 0) {
+        const r1 = (-b - Math.sqrt(delta)) / (2 * a), r2 = (-b + Math.sqrt(delta)) / (2 * a);
+        g.ponto(r1, 0, { cor: "var(--funcoes)" }).ponto(r2, 0, { cor: "var(--funcoes)" });
+        raizes = delta === 0 ? `x = ${fmt(r1, 2)} (raiz dupla)` : `x = ${fmt(Math.min(r1, r2), 2)} e x = ${fmt(Math.max(r1, r2), 2)}`;
+      }
+      ler(leitura, [
+        [texto, "", "funcoes"],
+        ["Δ =", fmt(delta, 2)],
+        ["vértice", `(${fmt(xv, 2)}; ${fmt(f(xv), 2)})`, "derivadas"],
+        ["concavidade", a > 0 ? "para cima (mínimo)" : "para baixo (máximo)"],
+        ["raízes", raizes],
+      ]);
+    }
+    [sa, sb, sc].forEach((s) => s.addEventListener("input", desenhar));
+    desenhar();
+  },
+
+  modular(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const g = Grafico.criar(area, { x: [-6, 6], y: [-4, 8], altura: 380, rotulo: "Gráfico da função modular f(x) = |x − h| + k" });
+    const sh = deslizador(ctr, { rotulo: "h (desloca para os lados)", min: -3, max: 3, passo: 0.5, valor: 0, mostrar: (v) => fmt(v, 1) });
+    const sk = deslizador(ctr, { rotulo: "k (desloca para cima/baixo)", min: -3, max: 3, passo: 0.5, valor: 0, mostrar: (v) => fmt(v, 1) });
+    function desenhar() {
+      const h = +sh.value, k = +sk.value;
+      g.limpar().funcao((x) => Math.abs(x - h) + k, { cor: "var(--funcoes)", espessura: 3 })
+        .ponto(h, k, { cor: "var(--derivadas)", halo: true });
+      const dentro = h === 0 ? "x" : `x ${sinal(-h)}`;
+      ler(leitura, [
+        [`f(x) = |${dentro}|${k === 0 ? "" : " " + sinal(k)}`, "", "funcoes"],
+        ["vértice (ponta)", `(${fmt(h, 1)}; ${fmt(k, 1)})`, "derivadas"],
+        ["imagem", `[${fmt(k, 1)}; +∞)`],
+      ]);
+    }
+    sh.addEventListener("input", desenhar);
+    sk.addEventListener("input", desenhar);
+    desenhar();
+  },
+
+  exponencial(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const g = Grafico.criar(area, { x: [-4, 4], y: [-1, 8], altura: 380, rotulo: "Gráfico da função exponencial f(x) = aˣ" });
+    const sb = deslizador(ctr, { rotulo: "a (base)", min: 0.2, max: 3, passo: 0.1, valor: 2, mostrar: (v) => fmt(v, 1) });
+    function desenhar() {
+      const b = +sb.value;
+      g.limpar().funcao((x) => Math.pow(b, x), { cor: "var(--funcoes)", espessura: 3 }).ponto(0, 1, { cor: "var(--derivadas)", halo: true });
+      const um = Math.abs(b - 1) < 1e-9;
+      ler(leitura, [
+        [`f(x) = ${fmt(b, 1)}ˣ`, "", "funcoes"],
+        ["comportamento", um ? "a = 1 não vale: vira constante" : b > 1 ? "crescente (a > 1)" : "decrescente (0 < a < 1)"],
+        ["passa por", "(0, 1)", "derivadas"],
+        ["imagem", "(0, +∞)"],
+      ]);
+    }
+    sb.addEventListener("input", desenhar);
+    desenhar();
+  },
+
+  logaritmica(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const legenda = document.createElement("div");
+    legenda.className = "legenda";
+    legenda.innerHTML = `<span style="--c:var(--funcoes)">logₐ x</span><span style="--c:var(--grafite)">aˣ (inversa)</span>`;
+    area.after(legenda);
+    const g = Grafico.criar(area, { x: [-4, 6], y: [-4, 6], altura: 400, rotulo: "Gráfico da função logarítmica e da exponencial, espelhadas pela reta y = x" });
+    const sb = deslizador(ctr, { rotulo: "a (base)", min: 0.2, max: 4, passo: 0.1, valor: 2, mostrar: (v) => fmt(v, 1) });
+    function desenhar() {
+      const b = +sb.value;
+      const um = Math.abs(b - 1) < 1e-9;
+      g.limpar().funcao((x) => x, { cor: "var(--grafite, #566173)", espessura: 1.25, tracejado: "4 5", opacidade: 0.6 });
+      if (!um) {
+        g.funcao((x) => Math.pow(b, x), { cor: "var(--grafite, #566173)", espessura: 2, opacidade: 0.5 })
+          .funcao((x) => (x > 0 ? Math.log(x) / Math.log(b) : NaN), { cor: "var(--funcoes)", espessura: 3, amostras: 800 })
+          .ponto(1, 0, { cor: "var(--derivadas)", halo: true });
+      }
+      ler(leitura, [
+        [`f(x) = logₐ x, com a = ${fmt(b, 1)}`, "", "funcoes"],
+        ["comportamento", um ? "a = 1 não vale como base" : b > 1 ? "crescente (a > 1)" : "decrescente (0 < a < 1)"],
+        ["passa por", "(1, 0)", "derivadas"],
+        ["domínio", "x > 0"],
+      ]);
+    }
+    sb.addEventListener("input", desenhar);
+    desenhar();
+  },
+
+  trigonometrica(fig) {
+    const { area, ctr, leitura } = painel(fig);
+    const g = Grafico.criar(area, { x: [-7, 7], y: [-4, 4], altura: 380, rotulo: "Gráfico de seno, cosseno ou tangente com amplitude e frequência ajustáveis" });
+    const sel = seletor(ctr, { rotulo: "Função", opcoes: [["sen", "Seno"], ["cos", "Cosseno"], ["tg", "Tangente"]] });
+    const sa = deslizador(ctr, { rotulo: "a (amplitude)", min: -3, max: 3, passo: 0.5, valor: 1, mostrar: (v) => fmt(v, 1) });
+    const sb = deslizador(ctr, { rotulo: "b (frequência)", min: 0.5, max: 4, passo: 0.5, valor: 1, mostrar: (v) => fmt(v, 1) });
+    const fns = { sen: Math.sin, cos: Math.cos, tg: Math.tan };
+    function desenhar() {
+      const t = sel.value, a = +sa.value, b = +sb.value;
+      g.limpar().funcao((x) => a * fns[t](b * x), { cor: "var(--funcoes)", espessura: 3, amostras: 1200 });
+      const periodo = (t === "tg" ? Math.PI : 2 * Math.PI) / b;
+      const nome = { sen: "sen", cos: "cos", tg: "tg" }[t];
+      ler(leitura, [
+        [`f(x) = ${fmt(a, 1)} · ${nome}(${fmt(b, 1)}x)`, "", "funcoes"],
+        ["período", `${fmt(periodo, 2)} (= ${t === "tg" ? "π" : "2π"}/${fmt(b, 1)})`],
+        t === "tg" ? ["imagem", "ℝ"] : ["imagem", `[${fmt(-Math.abs(a), 1)}; ${fmt(Math.abs(a), 1)}]`],
+      ]);
+    }
+    sel.addEventListener("change", desenhar);
+    sa.addEventListener("input", desenhar);
+    sb.addEventListener("input", desenhar);
     desenhar();
   },
 

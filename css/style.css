@@ -905,6 +905,134 @@ input[type="range"]::-moz-range-thumb {
   margin-bottom: 1.25rem;
 }
 
+/* ---------- Abas dos tipos de função ---------- */
+
+.abas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0 2.25rem;
+}
+.abas a {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.95rem;
+  border: 1.5px solid var(--linha);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--grafite);
+  text-decoration: none;
+}
+.abas a:hover {
+  border-color: var(--cor-bloco);
+  color: var(--tinta);
+}
+.abas a[aria-current="true"] {
+  background: var(--cor-bloco);
+  border-color: var(--cor-bloco);
+  color: #fff;
+}
+.conteudo .titulo-tipo {
+  font-size: 1.6rem;
+  margin: 0 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+}
+.titulo-tipo .forma {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--cor-bloco);
+}
+.subtitulo-tipo {
+  font-size: 1.12rem;
+  margin: 1.9rem 0 0.6rem;
+}
+.proximo-tipo {
+  display: inline-block;
+  margin-top: 1.25rem;
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  color: var(--cor-bloco);
+}
+.proximo-tipo::after {
+  content: " →";
+}
+.notaveis th,
+.notaveis td {
+  text-align: center;
+}
+.sumario ol ol {
+  border-left: 0;
+  margin: 0 0 0.3rem;
+}
+.sumario ol ol a {
+  padding: 0.2rem 0 0.2rem 1.75rem;
+  font-size: 0.86rem;
+}
+
+/* Exercício com números sorteados */
+.campos-resposta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: end;
+}
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.campo label {
+  font-family: var(--fonte-titulo);
+  font-size: 0.92rem;
+  color: var(--grafite);
+}
+.campo input {
+  font: inherit;
+  width: 9rem;
+  padding: 0.55rem 0.7rem;
+  border: 1.5px solid var(--linha);
+  border-radius: 8px;
+  background: var(--papel);
+  color: var(--tinta);
+}
+.campo input[aria-invalid="true"] {
+  border-color: #c0392b;
+}
+.campo input[aria-invalid="false"] {
+  border-color: var(--integrais);
+}
+.acoes-gerada {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.acoes-gerada .botao {
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+}
+.dica-formato {
+  font-family: var(--fonte-titulo);
+  font-size: 0.85rem;
+  color: var(--grafite);
+  margin: 0.7rem 0 0;
+}
+.retorno ol {
+  margin: 0.6rem 0 0;
+}
+.retorno summary {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--cor-bloco);
+  cursor: pointer;
+  width: fit-content;
+  margin-top: 0.5rem;
+}
+
 /* ---------- Quiz ---------- */
 
 .quiz-palco {
