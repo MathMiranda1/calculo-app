@@ -24,7 +24,4 @@ js/app.js         fórmulas, exercícios, progresso e quiz
 
 ## Adicionar uma questão
 
-Copie um objeto em `js/questoes.js`, troque o `id` por um novo e edite o texto. `correta` é a posição da alternativa certa, começando em 0.
-
-
-
+Copie um objeto em `js/questoes.js`, troque o `id` por um novo e edite o texto. `correta` é a posição da alternativa certa, começando em 0
