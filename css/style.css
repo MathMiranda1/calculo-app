@@ -1,5 +1,5 @@
 :root {
-  --papel: #f7f8fa;
+  --papel: #dde5f5;
   --superficie: #ffffff;
   --tinta: #18212f;
   --grafite: #566173;
@@ -7,12 +7,12 @@
   --grade: #eceff4;
 
   --funcoes: #2457d6;
-  --limites: #b86e00;
+  --limites: #f3bf13;
   --derivadas: #c42a6b;
   --integrais: #12805c;
 
   --funcoes-claro: #e8eefc;
-  --limites-claro: #fbf1e1;
+  --limites-claro: #f7ecdc;
   --derivadas-claro: #fbe8f0;
   --integrais-claro: #e3f4ed;
 
