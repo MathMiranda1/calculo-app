@@ -26,6 +26,5 @@ js/app.js         fórmulas, exercícios, progresso e quiz
 
 Copie um objeto em `js/questoes.js`, troque o `id` por um novo e edite o texto. `correta` é a posição da alternativa certa, começando em 0.
 
-## Publicar
 
-Envie a pasta para o GitHub e ative o GitHub Pages, ou arraste a pasta em https://app.netlify.com/drop.
+
