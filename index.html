@@ -1,108 +1,177 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tangente | Cálculo Diferencial e Integral</title>
-  <meta name="description" content="Material de estudo de Cálculo Diferencial e Integral: funções, limites, derivadas e integrais, com gráficos interativos e exercícios corrigidos.">
-  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  <script defer src="js/graficos.js"></script>
-  <script defer src="js/questoes.js"></script>
-  <script defer src="js/demos.js"></script>
-  <script defer src="js/app.js"></script>
-</head>
-<body>
-  <a class="pular" href="#principal">Pular para o conteúdo</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tangente | Cálculo Diferencial e Integral</title>
+    <meta
+      name="description"
+      content="Material de estudo de Cálculo Diferencial e Integral: funções, limites, derivadas e integrais, com gráficos interativos e exercícios corrigidos."
+    />
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <script defer src="js/graficos.js"></script>
+    <script defer src="js/questoes.js"></script>
+    <script defer src="js/demos.js"></script>
+    <script defer src="js/app.js"></script>
+  </head>
+  <body>
+    <a class="pular" href="#principal">Pular para o conteúdo</a>
 
-  <header class="topo">
-    <div class="topo-interno">
-      <a class="marca" href="index.html">
-        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 26C10 26 14 6 29 5" fill="none" stroke="#2457d6" stroke-width="3" stroke-linecap="round"/><line x1="6" y1="25.6" x2="20" y2="6.4" stroke="#c42a6b" stroke-width="2.5" stroke-linecap="round"/><circle cx="13" cy="16" r="3.2" fill="#c42a6b"/></svg>
-        <span>Tangente</span>
-      </a>
-      <nav class="menu" aria-label="Blocos da disciplina">
-        <a href="funcoes.html" data-bloco="funcoes">Funções</a>
-        <a href="limites.html" data-bloco="limites">Limites</a>
-        <a href="derivadas.html" data-bloco="derivadas">Derivadas</a>
-        <a href="integrais.html" data-bloco="integrais">Integrais</a>
-        <a href="quiz.html" data-bloco="quiz">Quiz</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="principal">
-    <section class="inicio-hero">
-      <div>
-        <h1>Cálculo se entende mexendo.</h1>
-        <p class="lead">Teoria, exemplos resolvidos e exercícios de Cálculo Diferencial e Integral, com gráficos que respondem ao seu toque.</p>
-        <p class="lead">Arraste o ponto sobre a curva. A reta magenta é a tangente, e a inclinação dela é a derivada naquele ponto.</p>
-        <div class="acoes">
-          <a class="botao" href="funcoes.html">Começar pelo bloco 1</a>
-          <a class="botao secundario" href="quiz.html">Testar meus conhecimentos</a>
-        </div>
+    <header class="topo">
+      <div class="topo-interno">
+        <a class="marca" href="index.html">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path
+              d="M3 26C10 26 14 6 29 5"
+              fill="none"
+              stroke="#2457d6"
+              stroke-width="3"
+              stroke-linecap="round"
+            />
+            <line
+              x1="6"
+              y1="25.6"
+              x2="20"
+              y2="6.4"
+              stroke="#c42a6b"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+            <circle cx="13" cy="16" r="3.2" fill="#c42a6b" />
+          </svg>
+          <span>Tangente</span>
+        </a>
+        <nav class="menu" aria-label="Blocos da disciplina">
+          <a href="funcoes.html" data-bloco="funcoes">Funções</a>
+          <a href="limites.html" data-bloco="limites">Limites</a>
+          <a href="derivadas.html" data-bloco="derivadas">Derivadas</a>
+          <a href="integrais.html" data-bloco="integrais">Integrais</a>
+          <a href="quiz.html" data-bloco="quiz">Quiz</a>
+        </nav>
       </div>
+    </header>
 
-      <figure class="explorar bloco-derivadas" data-demo="tangente" style="--cor-bloco: var(--derivadas)">
-        <div class="area-grafico"></div>
-        <figcaption>Onde a reta fica <strong>horizontal</strong>, a derivada vale zero: ali a curva tem um pico ou um vale. É assim que se encontram máximos e mínimos.</figcaption>
-      </figure>
-    </section>
-
-    <section class="roteiro" aria-labelledby="titulo-roteiro">
-      <h2 id="titulo-roteiro">O caminho da disciplina</h2>
-      <p>Quatro blocos, nesta ordem. Cada um depende do anterior: limites usam funções, derivadas são limites, e integrais desfazem derivadas.</p>
-
-      <ol class="trilha">
-        <li data-bloco="funcoes">
-          <span class="num" aria-hidden="true">1</span>
-          <h3><a href="funcoes.html">Funções reais</a></h3>
-          <p>Domínio, imagem e gráficos. Funções constante, afim, linear, quadrática, modular, exponencial, logarítmica e trigonométricas.</p>
-          <div class="progresso" data-progresso="funcoes"></div>
-        </li>
-        <li data-bloco="limites">
-          <span class="num" aria-hidden="true">2</span>
-          <h3><a href="limites.html">Limites e continuidade</a></h3>
-          <p>O que acontece quando x se aproxima de um valor ou cresce sem parar. A base matemática da notação Big-O.</p>
-          <div class="progresso" data-progresso="limites"></div>
-        </li>
-        <li data-bloco="derivadas">
-          <span class="num" aria-hidden="true">3</span>
-          <h3><a href="derivadas.html">Cálculo diferencial</a></h3>
-          <p>Taxa de variação instantânea, regras de derivação, máximos e mínimos. O motor do Gradient Descent em redes neurais.</p>
-          <div class="progresso" data-progresso="derivadas"></div>
-        </li>
-        <li data-bloco="integrais">
-          <span class="num" aria-hidden="true">4</span>
-          <h3><a href="integrais.html">Cálculo integral</a></h3>
-          <p>Primitivas, técnicas de integração e o Teorema Fundamental. Áreas, volumes, probabilidade e física de jogos.</p>
-          <div class="progresso" data-progresso="integrais"></div>
-        </li>
-      </ol>
-    </section>
-
-    <section class="faixa-quiz" aria-labelledby="titulo-quiz">
-      <div>
+    <main id="principal">
+      <section class="inicio-hero">
         <div>
-          <h2 id="titulo-quiz">Pronto para uma prova?</h2>
-          <p>Monte um quiz com questões sorteadas dos blocos que escolher. No final você vê a nota e o que precisa revisar.</p>
+          <h1>Cálculo se entende mexendo.</h1>
+          <p class="lead">
+            Teoria, exemplos resolvidos e exercícios de Cálculo Diferencial e
+            Integral, com gráficos que respondem ao seu toque.
+          </p>
+          <p class="lead">
+            Arraste o ponto sobre a curva. A reta magenta é a tangente, e a
+            inclinação dela é a derivada naquele ponto.
+          </p>
+          <div class="acoes">
+            <a class="botao" href="funcoes.html">Começar pelo bloco 1</a>
+            <a class="botao secundario" href="quiz.html"
+              >Testar meus conhecimentos</a
+            >
+          </div>
         </div>
-        <a class="botao" href="quiz.html">Montar um quiz</a>
-      </div>
-    </section>
-  </main>
 
-  <footer class="rodape">
-    <div>
-      <span>Tangente: material de estudo de Cálculo Diferencial e Integral.</span>
-      <span>Trabalho acadêmico, 2026.</span>
-    </div>
-  </footer>
-</body>
+        <figure
+          class="explorar bloco-derivadas"
+          data-demo="tangente"
+          style="--cor-bloco: var(--derivadas)"
+        >
+          <div class="area-grafico"></div>
+          <figcaption>
+            Onde a reta fica <strong>horizontal</strong>, a derivada vale zero:
+            ali a curva tem um pico ou um vale. É assim que se encontram máximos
+            e mínimos.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="roteiro" aria-labelledby="titulo-roteiro">
+        <h2 id="titulo-roteiro">O caminho da disciplina</h2>
+        <p>
+          Quatro blocos, nesta ordem. Cada um depende do anterior: limites usam
+          funções, derivadas são limites, e integrais desfazem derivadas.
+        </p>
+
+        <ol class="trilha">
+          <li data-bloco="funcoes">
+            <span class="num" aria-hidden="true">1</span>
+            <h3><a href="funcoes.html">Funções reais</a></h3>
+            <p>
+              Domínio, imagem e gráficos. Funções constante, afim, linear,
+              quadrática, modular, exponencial, logarítmica e trigonométricas.
+            </p>
+            <div class="progresso" data-progresso="funcoes"></div>
+          </li>
+          <li data-bloco="limites">
+            <span class="num" aria-hidden="true">2</span>
+            <h3><a href="limites.html">Limites e continuidade</a></h3>
+            <p>
+              O que acontece quando x se aproxima de um valor ou cresce sem
+              parar. A base matemática da notação Big-O.
+            </p>
+            <div class="progresso" data-progresso="limites"></div>
+          </li>
+          <li data-bloco="derivadas">
+            <span class="num" aria-hidden="true">3</span>
+            <h3><a href="derivadas.html">Derivadas</a></h3>
+            <p>
+              Taxa de variação instantânea, regras de derivação, máximos e
+              mínimos. O motor do Gradient Descent em redes neurais.
+            </p>
+            <div class="progresso" data-progresso="derivadas"></div>
+          </li>
+          <li data-bloco="integrais">
+            <span class="num" aria-hidden="true">4</span>
+            <h3><a href="integrais.html">Cálculo integral</a></h3>
+            <p>
+              Primitivas, técnicas de integração e o Teorema Fundamental. Áreas,
+              volumes, probabilidade e física de jogos.
+            </p>
+            <div class="progresso" data-progresso="integrais"></div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="faixa-quiz" aria-labelledby="titulo-quiz">
+        <div>
+          <div>
+            <h2 id="titulo-quiz">Pronto para uma prova?</h2>
+            <p>
+              Monte um quiz com questões sorteadas dos blocos que escolher. No
+              final você vê a nota e o que precisa revisar.
+            </p>
+          </div>
+          <a class="botao" href="quiz.html">Montar um quiz</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div>
+        <span
+          >Tangente: material de estudo de Cálculo Diferencial e Integral.</span
+        >
+        <span>Trabalho acadêmico, 2026.</span>
+      </div>
+    </footer>
+  </body>
 </html>
